@@ -16,6 +16,7 @@ def main():
 if __name__ == "__main__":
     # execute only if run as a script
     print(os.environ.get('JENKON_HOME'))
+    program_name = os.path.basename(__file__)
     arguments = sys.argv[1:]
     args_count = len(arguments)
     if args_count < 3:
