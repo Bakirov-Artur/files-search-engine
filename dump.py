@@ -17,11 +17,11 @@ if __name__ == "__main__":
     # execute only if run as a script
     print(os.environ['JENKON_HOME'])
     arguments = sys.argv[1:]
-	args_count = len(arguments)
-	if args_count < 3:
-	    logging.error("No input arguments")
-	    logging.error("%s {JENKON_HOME} {TYPE_FILE:FILES:FOLDER:PATHS:PATHS/REGEX:REGEX} {PATH/DUMP_NAME}" % (program_name))
-	    logging.error("example: %s \"/home/jenkins/ /etc/fstab /usr\" /media/storage my_dump_name" % (program_name))
-	    sys.exit(1)
+    args_count = len(arguments)
+    if args_count < 3:
+        logging.error("No input arguments")
+        logging.error("%s {JENKON_HOME} {TYPE_FILE:FILES:FOLDER:PATHS:PATHS/REGEX:REGEX} {PATH/DUMP_NAME}" % (program_name))
+        logging.error("example: %s \"/home/jenkins/ /etc/fstab /usr\" /media/storage my_dump_name" % (program_name))
+        sys.exit(1)
 
     main()
