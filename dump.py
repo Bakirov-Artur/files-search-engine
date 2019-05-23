@@ -10,15 +10,20 @@ from datetime import datetime
 
 def get_jobs():
     print 'jobs'
+
 def main():
     print('Main')
-    logging.basicConfig(level = logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     #Получить все файлы
     root_files = ls_dir("/var/lib/jenkins")
     flist = [] # Список всех файлов
     get_files("/var/lib/jenkins", root_files, db_files=flist)
-    print(flist)
-    #Отфильтровать мусор
+    #Отфильтровать мусор по регулярке
+    filter_files(flist, "users:secrets:nodes")
+
+def filter_files(db_files, pattern)
+    for fl in db_files:
+        print(fl)
 
 def ls_dir(path):
     return os.listdir(path)
