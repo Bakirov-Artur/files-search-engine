@@ -27,7 +27,7 @@ def get_path(path, file):
 
 def get_files(root_path, files):
     for file in files:
-        path_file = get_path(root_path, files)
+        path_file = get_path(root_path, file)
         if is_dir(path_file):
             logging.info("dir: %s" % (path_file))
             chld_files = ls_dir(path_file)            
