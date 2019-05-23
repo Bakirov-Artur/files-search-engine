@@ -33,7 +33,8 @@ def get_files(root_path, files):
         if is_dir(path_file):
             logging.info("dir: %s" % (path_file))
             chld_files = ls_dir(path_file)            
-            get_files(path_file, chld_files)
+            dir_files = get_files(path_file, chld_files)
+            file_list.append(dir_files)
         else:
             logging.info("file: %s" % (path_file))
             file_list.append(path_file)
