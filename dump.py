@@ -12,25 +12,29 @@ def get_jobs():
     print 'jobs'
 def main():
     print('Main')
+    logging.basicConfig(level = logging.DEBUG)
     root_files = ls_dir("/var/lib/jenkins")
     get_files("/var/lib/jenkins", root_files)
 
 def ls_dir(path):
     return os.listdir(path)
+
 def is_dir(file):
     return os.path.isdir(file)
+
 def get_path(file):
     return os.path.abspath(file)
 
 def get_files(root_path, files):
     logging.info("List files start: %s" % (root_path))
     for file in files:
+        path_file = get_path(file)
         if is_dir(file):
-            path = get_path(file)
-            chld_files = ls_dir(path)            
-            get_files(path, chld_files)
+            logging.info("list dirs: %s" % (path_file))
+            chld_files = ls_dir(path_file)            
+            get_files(path_file, chld_files)
         else:
-            logging.info("list file: %s" % (get_path(file)))
+            logging.info("list file: %s" % (path_file))
     logging.info("List files end")
 
 if __name__ == "__main__":
