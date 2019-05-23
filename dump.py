@@ -21,7 +21,7 @@ def main():
     #Отфильтровать мусор по регулярке
     filter_files(flist, "users:secrets:nodes")
 
-def filter_files(db_files, pattern)
+def filter_files(db_files, pattern):
     for fl in db_files:
         print(fl)
 
