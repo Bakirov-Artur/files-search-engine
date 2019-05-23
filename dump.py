@@ -20,7 +20,6 @@ def ls_dir(path):
     return os.listdir(path)
 
 def is_dir(file):
-    logging.info("isdir: %s" % (file))
     return os.path.isdir(file)
 
 def get_path(file):
