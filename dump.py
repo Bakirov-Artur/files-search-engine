@@ -11,17 +11,43 @@ from datetime import datetime
 def get_jobs():
     print 'jobs'
 def main():
-    print 'hello'
+    print('Main')
+    root_files = ls_dir("/var/lib/jenkins")
+    get_files("/var/lib/jenkins", root_files)
+
+def ls_dir(path):
+    return os.listdir(path)
+def is_dir(file):
+    return os.path.isdir(file)
+
+def get_files(root_pahts, files):
+    for file in files:
+        if is_dir(file):
+            chld_files = ls_dir(file)
+            get_files(file, chld_files)
+        else:
+            println("list file: %s%s" %(root_pahts, file))
+    print "file end"
 
 if __name__ == "__main__":
     # execute only if run as a script
     print(os.environ.get('JENKON_HOME'))
     program_name = os.path.basename(__file__)
     arguments = sys.argv[1:]
-    args_count = len(arguments)
+    args_count = range(len(arguments))
+    for x in args_count:
+        if x == 0:
+            fls = arguments[x].split(' ')
+            DUMP_PATH = arguments[x]
+        elif x == 1:
+            SEARC_REGEX_LIST = arguments[x].split(':')
+        elif x == 2:
+            DUMP_NAME = arguments[x]
+
+
     if args_count < 3:
         logging.error("No input arguments")
-        logging.error("%s {JENKON_HOME} {TYPE_FILE:FILES:FOLDER:PATHS:PATHS/REGEX:REGEX} {PATH/DUMP_NAME}" % (program_name))
+        logging.error("%s [options] {JENKON_HOME} {TYPE_FILE:FILE:FOLDER:FOLDER/REGEX:PATHS/REGEX:REGEX} {PATH/DUMP_NAME}" % (program_name))
         logging.error("example: %s \"/home/jenkins/ /etc/fstab /usr\" /media/storage my_dump_name" % (program_name))
         sys.exit(1)
 
