@@ -29,7 +29,7 @@ def get_files(root_path, files):
     logging.info("List files start: %s" % (root_path))
     for file in files:
         path_file = get_path(file)
-        if is_dir(file):
+        if is_dir(path_file):
             logging.info("list dirs: %s" % (path_file))
             chld_files = ls_dir(path_file)            
             get_files(path_file, chld_files)
