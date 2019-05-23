@@ -14,7 +14,8 @@ def main():
     print('Main')
     logging.basicConfig(level = logging.DEBUG)
     root_files = ls_dir("/var/lib/jenkins")
-    get_files("/var/lib/jenkins", root_files)
+    flist = get_files("/var/lib/jenkins", root_files)
+    print(flist)
 
 def ls_dir(path):
     return os.listdir(path)
@@ -26,6 +27,7 @@ def get_path(path, file):
     return os.path.join(path, file)
 
 def get_files(root_path, files):
+    file_list = []
     for file in files:
         path_file = get_path(root_path, file)
         if is_dir(path_file):
@@ -34,6 +36,8 @@ def get_files(root_path, files):
             get_files(path_file, chld_files)
         else:
             logging.info("file: %s" % (path_file))
+            file_list.append(path_file)
+    return file_list;
 
 if __name__ == "__main__":
     # execute only if run as a script
