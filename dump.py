@@ -22,20 +22,18 @@ def ls_dir(path):
 def is_dir(file):
     return os.path.isdir(file)
 
-def get_path(file):
-    return os.path.abspath(file)
+def get_path(path, file):
+    return os.path.join(path, file)
 
 def get_files(root_path, files):
-    logging.info("List files start: %s" % (root_path))
     for file in files:
-        path_file = os.path.join(root_path, file)
+        path_file = get_path(root_path, files)
         if is_dir(path_file):
-            logging.info("list dirs: %s" % (path_file))
+            logging.info("dir: %s" % (path_file))
             chld_files = ls_dir(path_file)            
             get_files(path_file, chld_files)
         else:
-            logging.info("list file: %s" % (path_file))
-    logging.info("List files end")
+            logging.info("file: %s" % (path_file))
 
 if __name__ == "__main__":
     # execute only if run as a script
