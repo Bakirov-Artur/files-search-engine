@@ -7,6 +7,7 @@ import sys
 import shutil
 import logging
 from datetime import datetime
+import fnmatch, re
 
 def get_jobs():
     print 'jobs'
@@ -19,11 +20,16 @@ def main():
     flist = [] # Список всех файлов
     get_files("/var/lib/jenkins", root_files, db_files=flist)
     #Отфильтровать мусор по регулярке
-    filter_files(flist, "users:secrets:nodes")
+    filter_files(flist, "/users/:/secrets/:/nodes/")
 
 def filter_files(db_files, pattern):
-    for fl in db_files:
-        print(fl)
+    pttrn = pattern.split(':')
+    for pt in pttrn:
+        regex = fnmatch.translate(pt)
+        reobj = re.compile(regex)
+        files = reobj.match(db_files)
+        for fl in files:
+            print(fl)
 
 def ls_dir(path):
     return os.listdir(path)
