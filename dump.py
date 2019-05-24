@@ -22,7 +22,7 @@ def main():
     #Отфильтровать мусор по регулярке
     fmt_list = filter_files(flist, "/users/:/secrets/:^/nodes/:.xml")
     for x in fmt_list: 
-        print x, 
+        logging.info("fmt_list: %s" % (x)), 
 
 def filter_files(db_files, patterns):
     pttrn = patterns.split(':')
