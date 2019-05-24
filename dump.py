@@ -21,7 +21,7 @@ def main():
     get_files("/var/lib/jenkins", root_files, db_files=flist)
     #Отфильтровать мусор по регулярке
     fmt_list = filter_files(flist, "/nodes/:/users/")
-    for x in flist: 
+    for x in fmt_list: 
         logging.info("fmt_list: %s" % (x)), 
 
 def filter_files(db_files, patterns):
@@ -53,7 +53,7 @@ def get_files(root_path, files, db_files=[]):
             #logging.info("dir: %s" % (path_file))
         #else:
             #logging.info("file: %s" % (path_file))
-        db_files.append(path_file[len(root_path):])
+        db_files.append(path_file)
 
 if __name__ == "__main__":
     # execute only if run as a script
