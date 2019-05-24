@@ -13,7 +13,6 @@ def get_jobs():
     print 'jobs'
 
 def main():
-    print('Main')
     logging.basicConfig(level=logging.INFO)
     #Получить все файлы
     root_files = ls_dir("/var/lib/jenkins")
@@ -22,7 +21,7 @@ def main():
     #Отфильтровать мусор по регулярке    
     fmt_list = filter_files(flist, "/nodes/:/users/")
     #Архивирование данных
-    create_archive("/opt/arv.tar.gz", fmt_list)
+    create_archive("/opt/arv.tar.gz", fmt_list.sort())
 
 def create_archive(name, files):
     tar = tarfile.open(name, "w:gz")
