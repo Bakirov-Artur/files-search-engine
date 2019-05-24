@@ -21,7 +21,7 @@ def main():
     #Отфильтровать мусор по регулярке    
     fmt_list = filter_files(flist, "/nodes/:/users/")
     #Архивирование данных
-    create_archive("/opt/arv.tar.gz", fmt_list.sort())
+    create_archive("/opt/arv.tar.gz", fmt_list)
 
 def create_archive(name, files):
     tar = tarfile.open(name, "w:gz")
@@ -39,7 +39,7 @@ def filter_files(db_files, patterns):
             result = pattern.search(fl)
             if result and fl not in filter_list:
                 filter_list.append(fl)
-    return filter_list
+    return filter_list.sort()
 
 def ls_dir(path):
     return os.listdir(path)
