@@ -21,7 +21,8 @@ def main():
     get_files("/var/lib/jenkins", root_files, db_files=flist)
     #Отфильтровать мусор по регулярке
     fmt_list = filter_files(flist, "/users/:/secrets/:^/nodes/:.xml")
-    print fmt_list
+    for x in fmt_list: 
+        print x, 
 
 def filter_files(db_files, patterns):
     pttrn = patterns.split(':')
@@ -30,7 +31,7 @@ def filter_files(db_files, patterns):
         for pt in pttrn:
             pattern = re.compile(pt)
             result = pattern.search(fl)
-            if result:
+            if result and fl not in filter_list:
                 filter_list.append(fl)
     return filter_list
 
