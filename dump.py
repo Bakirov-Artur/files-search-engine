@@ -30,7 +30,7 @@ def filter_files(db_files, patterns):
             print("pattern: %s" %(pattern))
             result = pattern.search(fl)
             if result:
-                print(result)
+                print(fl)
 
 def ls_dir(path):
     return os.listdir(path)
