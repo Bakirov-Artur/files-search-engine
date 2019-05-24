@@ -28,7 +28,7 @@ def filter_files(db_files, pattern):
         regex = fnmatch.translate(pt)
         reobj = re.compile(regex)
         for fl in db_files:
-            files = reobj.match(files)
+            files = reobj.match(fl)
             print(fl)
 
 def ls_dir(path):
