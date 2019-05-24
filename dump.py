@@ -7,7 +7,7 @@ import sys
 import shutil
 import logging
 from datetime import datetime
-import fnmatch, re
+import re
 
 def get_jobs():
     print 'jobs'
@@ -19,10 +19,16 @@ def main():
     root_files = ls_dir("/var/lib/jenkins")
     flist = [] # Список всех файлов
     get_files("/var/lib/jenkins", root_files, db_files=flist)
-    #Отфильтровать мусор по регулярке
+    #Отфильтровать мусор по регулярке    
     fmt_list = filter_files(flist, "/nodes/:/users/")
-    for x in fmt_list: 
-        logging.info("fmt_list: %s" % (x)), 
+    create_archive("/opt/arv.tar.gz", fmt_list)
+
+def create_archive(name, files):
+    tar = tarfile.open(name, "w:gz")
+    for f in files:
+        tar.add(f)
+        logging.info("archive add file: %s" % (f))
+    tar.close()
 
 def filter_files(db_files, patterns):
     pttrn = patterns.split(':')
