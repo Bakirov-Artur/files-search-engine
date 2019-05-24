@@ -22,11 +22,11 @@ def main():
     #Отфильтровать мусор по регулярке
     filter_files(flist, "/users/:/secrets/:/nodes/")
 
-def filter_files(db_files, pattern):
-    pttrn = pattern.split(':')
+def filter_files(db_files, patterns):
+    pttrn = patterns.split(':')
     for fl in db_files:
         for pt in pttrn:
-            pattern = re.compile(regex)
+            pattern = re.compile(pt)
             print("pattern: %s" %(pattern))
             result = pattern.search(fl)
             if result:
