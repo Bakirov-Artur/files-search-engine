@@ -30,7 +30,7 @@ def filter_files(db_files, pattern):
             print("regex: %s" %(regex))
             reobj = re.compile(regex)
             print("reobj: %s" %(reobj))
-            remch = reobj.search(fl)
+            remch = reobj.match(fl)
             print("remch: %s" %(remch))
             if remch:
                 print(remch)
