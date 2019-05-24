@@ -32,6 +32,7 @@ def filter_files(db_files, patterns):
             result = pattern.search(fl)
             if result:
                 filter_list.append(fl)
+    return filter_list
 
 def ls_dir(path):
     return os.listdir(path)
