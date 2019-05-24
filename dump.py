@@ -21,14 +21,15 @@ def main():
     #Отфильтровать мусор по регулярке    
     fmt_list = filter_files(flist, "/nodes/:/users/")
     #Архивирование данных
+    print fmt_list
     create_archive("/opt/arv.tar.gz", fmt_list)
 
 def create_archive(name, files):
-    tar = tarfile.open(name, "w:gz")
+    archiv = tarfile.open(name, "w:gz")
     for f in files:
-        tar.add(f)
+        archiv.add(f)
         logging.info("archive add file: %s" % (f))
-    tar.close()
+    archiv.close()
 
 def filter_files(db_files, patterns):
     pttrn = patterns.split(':')
