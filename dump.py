@@ -24,11 +24,14 @@ def main():
 
 def filter_files(db_files, pattern):
     pttrn = pattern.split(':')
-    for pt in pttrn:
-        regex = fnmatch.translate(pt)
-        reobj = re.compile(regex)
-        for fl in db_files:
+    for fl in db_files:
+        for pt in pttrn:
+            regex = fnmatch.translate(pt)
+            print("regex: %s" %(regex))
+            reobj = re.compile(regex)
+            print("reobj: %s" %(reobj))
             remch = reobj.search(fl)
+            print("remch: %s" %(remch))
             if remch:
                 print(remch)
 
