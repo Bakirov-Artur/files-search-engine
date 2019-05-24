@@ -53,7 +53,7 @@ def get_files(root_path, files, db_files=[]):
             #logging.info("dir: %s" % (path_file))
         #else:
             #logging.info("file: %s" % (path_file))
-        db_files.append(path_file)
+        db_files.append(path_file[len(root_path):])
 
 if __name__ == "__main__":
     # execute only if run as a script
