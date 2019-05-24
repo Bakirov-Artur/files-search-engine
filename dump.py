@@ -40,7 +40,7 @@ def filter_files(db_files, patterns):
             result = pattern.search(fl)
             if result and fl not in filter_list:
                 filter_list.append(fl)
-    return filter_list.sort()
+    return sortd(filter_list)
 
 def ls_dir(path):
     return os.listdir(path)
