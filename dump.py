@@ -20,7 +20,7 @@ def main():
     flist = [] # Список всех файлов
     get_files("/var/lib/jenkins", root_files, db_files=flist)
     #Отфильтровать мусор по регулярке
-    fmt_list = filter_files(flist, "^/nodes/:users")
+    fmt_list = filter_files(flist, "^/nodes/:/users/")
     for x in fmt_list: 
         logging.info("fmt_list: %s" % (x)), 
 
