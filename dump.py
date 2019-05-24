@@ -21,6 +21,7 @@ def main():
     get_files("/var/lib/jenkins", root_files, db_files=flist)
     #Отфильтровать мусор по регулярке    
     fmt_list = filter_files(flist, "/nodes/:/users/")
+    #Архивирование данных
     create_archive("/opt/arv.tar.gz", fmt_list)
 
 def create_archive(name, files):
