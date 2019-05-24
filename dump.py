@@ -20,7 +20,7 @@ def main():
     flist = [] # Список всех файлов
     get_files("/var/lib/jenkins", root_files, db_files=flist)
     #Отфильтровать мусор по регулярке
-    filter_files(flist, "/users/:/secrets/:/nodes/:.xml")
+    filter_files(flist, "/users/:/secrets/:/nodes/:.xml$")
 
 def filter_files(db_files, patterns):
     pttrn = patterns.split(':')
