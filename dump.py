@@ -28,8 +28,8 @@ def filter_files(db_files, pattern):
         regex = fnmatch.translate(pt)
         reobj = re.compile(regex)
         for fl in db_files:
-            files = reobj.match(fl)
-            print(fl)
+            remch = reobj.match(fl)
+            print(remch)
 
 def ls_dir(path):
     return os.listdir(path)
