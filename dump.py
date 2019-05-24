@@ -27,7 +27,6 @@ def filter_files(db_files, patterns):
     for fl in db_files:
         for pt in pttrn:
             pattern = re.compile(pt)
-            print("pattern: %s" %(pattern))
             result = pattern.search(fl)
             if result:
                 print(fl)
