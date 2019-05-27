@@ -34,7 +34,7 @@ def main():
     create_archive(archive_file, flist)
 
 def create_archive(file_path, files):
-    archive_file = tarfile.open(name, "w:gz")
+    archive_file = tarfile.open(file_path, "w:gz")
     for f in files:
         archive_file.add(f)
         logging.info("archive add file: %s" % (f))
