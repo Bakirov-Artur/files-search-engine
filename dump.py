@@ -58,7 +58,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False):
         files = list_files
     else:    
         files = ls_dir(path)
-
+    print("get_files %s" %(files))
     for file in files:
         path_file = get_path(path, file)
         #recursive block
