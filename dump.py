@@ -31,6 +31,7 @@ def main():
     get_files(argvs, list_files=root_files, db_files=flist, recursive=True)
     #Отфильтровать мусор по регулярке
     flist = filter_files(flist, files_pattern)
+    print("flist: %s" %(flist))
     #Архивирование данных
     create_archive(archive_file, flist)
 
