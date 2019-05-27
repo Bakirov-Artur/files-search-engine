@@ -17,7 +17,7 @@ def main():
     
     argvs = "/var/lib/jenkins"
     #depth = 3
-    files_pattern = "/nodes:/users"
+    files_pattern = "/nodes/:/users/"
     archive_file = "/opt/arv.tar.gz"
 
     flist = [] # Список всех файлов
@@ -25,7 +25,6 @@ def main():
     #Получть список файлов в корневом катологе
     root_files = []
     get_files(argvs, db_files=root_files)
-    print("root_files: %s" %(root_files))
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, files_pattern)
     #Получить путь всех файлов в корневом катологе
