@@ -25,6 +25,7 @@ def main():
     #Получть список файлов в корневом катологе
     root_files = []
     get_files(argvs, db_files=root_files)
+    print("root_files: %s" %(root_files))
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, files_pattern)
     #Получить путь всех файлов в корневом катологе
@@ -58,7 +59,6 @@ def get_files(path, list_files=None, db_files=[], recursive=False):
         files = list_files
     else:    
         files = ls_dir(path)
-    print("get_files %s" %(files))
     for file in files:
         path_file = get_path(path, file)
         #recursive block
