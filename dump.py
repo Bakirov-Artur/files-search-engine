@@ -31,7 +31,7 @@ def main():
     #Отфильтровать мусор по регулярке
     flist = filter_files(flist, files_pattern)
     #Архивирование данных
-    create_archive(arc_file, flist)
+    create_archive(archive_file, flist)
 
 def create_archive(file_path, files):
     archive_file = tarfile.open(name, "w:gz")
