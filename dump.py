@@ -17,7 +17,7 @@ def main():
     
     argvs = "/var/lib/jenkins"
     #depth = 3
-    files_pattern = "/nodes/:/users/"
+    files_pattern = "/nodes:/users"
     archive_file = "/opt/arv.tar.gz"
 
     flist = [] # Список всех файлов
@@ -47,7 +47,7 @@ def filter_files(db_files, patterns):
     filter_list = []
     for fl in db_files:
         for pt in pattern_list:
-            pattern = re.compile(pt)
+            pattern = re.compile(os.path.normpath(pt))
             result = pattern.search(fl)
             if result and fl not in filter_list:
                 filter_list.append(fl)
@@ -59,8 +59,9 @@ def get_files(path, list_files=None, db_files=[], recursive=False):
         files = list_files
     else:    
         files = ls_dir(path)
+    src_path = os.path.normpath(path)
     for file in files:
-        path_file = get_path(path, file)
+        path_file = get_path(src_path, file)
         #recursive block
         if recursive and is_dir(path_file):
             chld_files = ls_dir(path_file)
