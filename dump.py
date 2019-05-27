@@ -65,7 +65,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False):
         #recursive block
         if recursive and is_dir(path_file):
             chld_files = ls_dir(path_file)
-            get_files(path_file, list_files=chld_files, db_files=db_files, recursive=true)
+            get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True)
             #logging.info("dir: %s" % (path_file))
         #else:
             #logging.info("file: %s" % (path_file))
