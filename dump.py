@@ -8,9 +8,39 @@ import shutil
 import logging
 from datetime import datetime
 import re
+import json
 
 def get_jobs():
     print 'jobs'
+
+def get_config:
+    return """
+        {
+            "dirs":[
+                {
+                    "path":"/opt/var/",
+                    "items":[
+                        "/et/", 
+                        "/asdf/", 
+                        "*.xml"
+                    ],
+                    "depth":3,
+                    "recursive":true
+                },
+                {
+                    "path":"/opt/var/",
+                    "items":"/et/:/asdf/:*.xml",
+                    "depth":2,
+                    "recursive":true
+                }
+            ],
+            "archive":{
+                "name":"expamle",
+                "path":"/opt/arch"
+                "type":"tar.gz"
+            }
+        }
+    """
 
 def main():
     logging.basicConfig(level=logging.INFO)
@@ -29,6 +59,10 @@ def main():
     root_files = filter_files(root_files, files_pattern)
     #Получить путь всех файлов в корневом катологе
     get_files(argvs, list_files=root_files, db_files=flist, recursive=True)
+
+    #Отфильтровать по глубине
+    #depth = 3
+
     #Отфильтровать мусор по регулярке
     flist = filter_files(flist, files_pattern)
     #Архивирование данных
@@ -100,5 +134,7 @@ if __name__ == "__main__":
         logging.error("%s [options] {JENKON_HOME} {TYPE_FILE:FILE:FOLDER:FOLDER/REGEX:PATHS/REGEX:REGEX} {PATH/DUMP_NAME}" % (program_name))
         logging.error("example: %s \"/home/jenkins/ /etc/fstab /usr\" /media/storage my_dump_name" % (program_name))
         sys.exit(1)
-
-    main()
+    conf = get_config()
+    dump_config = json.loads(conf)
+    print dump_config
+    #main()
