@@ -28,7 +28,7 @@ def main():
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, files_pattern)
     #Получить путь всех файлов в корневом катологе
-    get_files(argvs, list_files=root_files, db_files=flist, recursive=true)
+    get_files(argvs, list_files=root_files, db_files=flist, recursive=True)
     #Отфильтровать мусор по регулярке
     flist = filter_files(flist, files_pattern)
     #Архивирование данных
@@ -52,7 +52,7 @@ def filter_files(db_files, patterns):
                 filter_list.append(fl)
     return sorted(filter_list)
 
-def get_files(path, list_files=None, db_files=[], recursive=false):
+def get_files(path, list_files=None, db_files=[], recursive=False):
     #depth
     if isinstance(list_files, list):
         files = list_files
