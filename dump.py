@@ -23,11 +23,12 @@ def main():
     flist = [] # Список всех файлов
 
     #Получть список файлов в корневом катологе
-    root_files = ls_dir(argvs)
+    root_files = []
+    get_files(argvs, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, files_pattern)
     #Получить путь всех файлов в корневом катологе
-    get_files(argvs, root_files, db_files=flist)
+    get_files(argvs, list_files=root_files, db_files=flist, recursive=true)
     #Отфильтровать мусор по регулярке
     flist = filter_files(flist, files_pattern)
     #Архивирование данных
@@ -41,15 +42,33 @@ def create_archive(file_path, files):
     archive_file.close()
 
 def filter_files(db_files, patterns):
-    pttrn = patterns.split(':')
+    pattern_list = patterns.split(':')
     filter_list = []
     for fl in db_files:
-        for pt in pttrn:
+        for pt in pattern_list:
             pattern = re.compile(pt)
             result = pattern.search(fl)
             if result and fl not in filter_list:
                 filter_list.append(fl)
     return sorted(filter_list)
+
+def get_files(path, list_files=None, db_files=[], recursive=false):
+    #depth
+    if isinstance(list_files, list):
+        files = list_files
+    else:    
+        files = ls_dir(path)
+
+    for file in files:
+        path_file = get_path(path, file)
+        #recursive block
+        if recursive and is_dir(path_file):
+            chld_files = ls_dir(path_file)
+            get_files(path_file, list_files=chld_files, db_files=db_files, recursive=true)
+            #logging.info("dir: %s" % (path_file))
+        #else:
+            #logging.info("file: %s" % (path_file))
+        db_files.append(path_file)
 
 def ls_dir(path):
     return os.listdir(path)
@@ -59,18 +78,6 @@ def is_dir(file):
 
 def get_path(path, file):
     return os.path.join(path, file)
-
-def get_files(root_path, files, db_files=[]):
-    #depth
-    for file in files:
-        path_file = get_path(root_path, file)
-        if is_dir(path_file):
-            chld_files = ls_dir(path_file)
-            get_files(path_file, chld_files, db_files)
-            #logging.info("dir: %s" % (path_file))
-        #else:
-            #logging.info("file: %s" % (path_file))
-        db_files.append(path_file)
 
 if __name__ == "__main__":
     # execute only if run as a script
