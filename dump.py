@@ -14,22 +14,31 @@ def get_jobs():
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    #Получить все файлы
-    root_files = ls_dir("/var/lib/jenkins")
-    flist = [] # Список всех файлов
-    get_files("/var/lib/jenkins", root_files, db_files=flist)
-    #Отфильтровать мусор по регулярке    
-    fmt_list = filter_files(flist, "/nodes/:/users/")
-    #Архивирование данных
-    print fmt_list
-    create_archive("/opt/arv.tar.gz", fmt_list)
+    
+    argvs = "/var/lib/jenkins"
+    #depth = 3
+    files_pattern = "/nodes/:/users/"
+    archive_file = "/opt/arv.tar.gz"
 
-def create_archive(name, files):
-    archiv = tarfile.open(name, "w:gz")
+    flist = [] # Список всех файлов
+
+    #Получть список файлов в корневом катологе
+    root_files = ls_dir(argvs)
+    #Отфильтровать файлы в корневом катологе
+    root_files = filter_files(root_files, files_pattern)
+    #Получить путь всех файлов в корневом катологе
+    get_files(argvs, root_files, db_files=flist)
+    #Отфильтровать мусор по регулярке
+    flist = filter_files(flist, files_pattern)
+    #Архивирование данных
+    create_archive(arc_file, flist)
+
+def create_archive(file_path, files):
+    archive_file = tarfile.open(name, "w:gz")
     for f in files:
-        archiv.add(f)
+        archive_file.add(f)
         logging.info("archive add file: %s" % (f))
-    archiv.close()
+    archive_file.close()
 
 def filter_files(db_files, patterns):
     pttrn = patterns.split(':')
@@ -52,6 +61,7 @@ def get_path(path, file):
     return os.path.join(path, file)
 
 def get_files(root_path, files, db_files=[]):
+    #depth
     for file in files:
         path_file = get_path(root_path, file)
         if is_dir(path_file):
