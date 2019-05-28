@@ -14,9 +14,12 @@ def get_jobs():
     print 'jobs'
 
 def get_config():
-    return """
-        {
-            "dirs":[
+    return """ {
+        "archive":{
+            "name":"expamle",
+            "path":"/opt/arch"
+            "type":"tar.gz"
+            "items":[
                 {
                     "path":"/opt/var/",
                     "items":[
@@ -33,14 +36,9 @@ def get_config():
                     "depth":2,
                     "recursive":true
                 }
-            ],
-            "archive":{
-                "name":"expamle",
-                "path":"/opt/arch"
-                "type":"tar.gz"
-            }
+            ]
         }
-    """
+    } """
 
 def main():
     logging.basicConfig(level=logging.INFO)
