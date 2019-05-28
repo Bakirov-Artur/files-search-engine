@@ -9,6 +9,7 @@ import logging
 from datetime import datetime
 import re
 import json
+import argparse
 
 def get_jobs():
     print 'jobs'
@@ -112,27 +113,16 @@ def get_path(path, file):
     return os.path.join(path, file)
 
 if __name__ == "__main__":
-    # execute only if run as a script
-    print(os.environ.get('JENKON_HOME'))
     program_name = os.path.basename(__file__)
-    arguments = sys.argv[1:]
-    args_count = range(len(arguments))
-    for x in args_count:
-        if x == 0:
-            fls = arguments[x].split(' ')
-            DUMP_PATH = arguments[x]
-        elif x == 1:
-            SEARC_REGEX_LIST = arguments[x].split(':')
-        elif x == 2:
-            DUMP_NAME = arguments[x]
+    app_path = os.path.dirname(os.path.abspath( __file__ ))
+    config_default = get_file_config()
+    #get_path(app_path, '/etc/files_dump.conf')
+    #parser arguments
+    parser = argparse.ArgumentParser(description='Files dump')
+    parser.add_argument('--config', help='/your/path/json/config', default=config_default)
+    arguments = parser.parse_args(sys.argv[1:])
 
-
-    if args_count < 3:
-        logging.error("No input arguments")
-        logging.error("%s [options] {JENKON_HOME} {TYPE_FILE:FILE:FOLDER:FOLDER/REGEX:PATHS/REGEX:REGEX} {PATH/DUMP_NAME}" % (program_name))
-        logging.error("example: %s \"/home/jenkins/ /etc/fstab /usr\" /media/storage my_dump_name" % (program_name))
-        sys.exit(1)
-    conf = get_config()
+    conf = 
     dump_config = json.loads(conf)
     print dump_config
     #main()
