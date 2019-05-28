@@ -87,13 +87,17 @@ def is_dir(file):
 
 def get_path(path, file):
     return os.path.join(path, file)
-    
+
 def load_config_data(path):
     try:
         fconfig = open(path, 'r')
-    except IOError:
+        return json.load(fconfig)
+    except IOError as detail:
         logging.error("file: %s not found." % (path))
-    return json.load(fconfig)
+        logging.error(detail)
+
+
+   
 
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
