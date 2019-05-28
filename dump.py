@@ -17,8 +17,8 @@ def get_config():
     return """ {
         "archive":{
             "name":"expamle",
-            "path":"/opt/arch"
-            "type":"tar.gz"
+            "path":"/opt/arch",
+            "type":"tar.gz",
             "items":[
                 {
                     "path":"/opt/var/",
