@@ -39,7 +39,7 @@ def main(data):
     argvs = "/var/lib/jenkins"
     #depth = 3
     files_pattern = "/nodes/:/users/"
-    load(argvs, files_pattern, recursive=True)
+    flist = load(argvs, files_pattern, recursive=True)
     #Архивирование данных
     archive_file = "/opt/arv.tar.gz"
     create_archive(archive_file, flist)
