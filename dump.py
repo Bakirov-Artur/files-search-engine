@@ -96,6 +96,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Files dump')
     parser.add_argument('--config', help='/your/path/json/config', default=config_default)
     arguments = parser.parse_args(sys.argv[1:])
-    dump_config = json.loads(arguments)
+    dump_config = json.loads(arguments.config)
     print dump_config
     #main()
