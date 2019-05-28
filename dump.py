@@ -91,7 +91,7 @@ def get_path(path, file):
 def load_config_data(path):
     try:
         fconfig = open(path, 'r')
-    except FileNotFoundError:
+    except IOError:
         logging.error("file: %s not found." % (path))
     return json.load(fconfig)
 
