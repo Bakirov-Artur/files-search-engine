@@ -30,7 +30,7 @@ def load(path, items, depth=0, recursive=False):
 
     #Отфильтровать по глубине
     if depth > 0:
-        count = len(root_path.split('/')) + depth
+        count = len(root_path.split('/')[1:]) + depth
         flist = filter_depth(count, flist)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
@@ -40,7 +40,7 @@ def filter_depth(depth, files):
     for f in files:
         sf  = f.split('/')
         print(sf)
-        count = len(sf)
+        count = len(sf[1:])
         if count < depth:
             logging.info("filter_depth: depth: %d file: %s" % (count, f))
             filter_list.append(f)
