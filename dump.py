@@ -15,7 +15,7 @@ def get_jobs():
     print 'jobs'
 
 def get_default_configs(path):
-    return get_path(app_path, '/etc/files_dump.conf')
+    return get_path(path, '/etc/files_dump.conf')
 
 def main():
     logging.basicConfig(level=logging.INFO)
