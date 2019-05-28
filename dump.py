@@ -39,7 +39,7 @@ def filter_depth(depth, files):
     filter_list = []
     for f in files:
         sf  = os.path.split(f)
-        print("filter_depth sf: %s" % (sf))
+        print(sf)
         count = len(sf)
         if count < depth:
             logging.info("filter_depth: depth: %d file: %s" % (count, f))
