@@ -15,8 +15,7 @@ def get_jobs():
     print 'jobs'
 
 def get_default_configs(path):
-    print path
-    return get_path(path, '/etc/files_dump.conf')
+    return get_path(path, 'etc/files_dump.conf')
 
 def main():
     logging.basicConfig(level=logging.INFO)
@@ -91,9 +90,7 @@ def get_path(path, file):
 
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
-    print program_name
     app_path = os.path.dirname(os.path.abspath(__file__))
-    print app_path
     config_default = get_default_configs(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
