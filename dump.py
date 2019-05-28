@@ -20,18 +20,29 @@ def get_default_configs(path):
 def load(path, items, depth=0, recursive=False):
     flist = [] # Список всех файлов
     root_files = []
+    root_path = os.path.normpath(path)
     #Получть список файлов в корневом катологе
-    get_files(path, db_files=root_files)
+    get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
     #Получить путь всех файлов в корневом катологе
-    get_files(path, list_files=root_files, db_files=flist, recursive=recursive)
+    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive)
 
     #Отфильтровать по глубине
-    #depth = 3
-
+    if depth < 0:
+        count = len(os.path.split(root_path)) + depth
+        flist = filter_depth(count, flist)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
+
+def filter_depth(depth, files):
+    filter_list = []
+    for f in files:
+        count = len(os.path.split(f))
+        if count < depth:
+            logging.info("filter_depth: depth: %d file: %s" % (count, f))
+            filter_list.append(f)
+    return filter_list
 
 def main(data):
     logging.basicConfig(level=logging.INFO)
@@ -39,7 +50,7 @@ def main(data):
     argvs = "/var/lib/jenkins"
     #depth = 3
     files_pattern = "/nodes/:/users/"
-    flist = load(argvs, files_pattern, recursive=True)
+    flist = load(argvs, files_pattern, depth=2, recursive=True)
     #Архивирование данных
     archive_file = "/opt/arv.tar.gz"
     create_archive(archive_file, flist)
