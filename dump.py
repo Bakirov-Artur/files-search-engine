@@ -87,6 +87,13 @@ def is_dir(file):
 
 def get_path(path, file):
     return os.path.join(path, file)
+    
+def load_config_data(path):
+    try:
+        fconfig = open(path, 'r')
+    except FileNotFoundError:
+        logging.error("file: %s not found." % (path))
+    return json.load(fconfig)
 
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
@@ -97,6 +104,6 @@ if __name__ == "__main__":
     parser.add_argument('--config', help='/your/path/json/config', default=config_default)
     arguments = parser.parse_args(sys.argv[1:])
     print arguments
-    dump_config = json.load(arguments.config)
-    print dump_config
+    config_data = load_config_data(arguments.config)
+    print config_data
     #main()
