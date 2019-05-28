@@ -17,30 +17,31 @@ def get_jobs():
 def get_default_configs(path):
     return get_path(path, 'etc/files_dump.conf')
 
-def main():
+def load(path, items, depth=0, recursive=False):
+    flist = [] # Список всех файлов
+    root_files = []
+    #Получть список файлов в корневом катологе
+    get_files(path, db_files=root_files)
+    #Отфильтровать файлы в корневом катологе
+    root_files = filter_files(root_files, items)
+    #Получить путь всех файлов в корневом катологе
+    get_files(path, list_files=root_files, db_files=flist, recursive=recursive)
+
+    #Отфильтровать по глубине
+    #depth = 3
+
+    #Отфильтровать мусор по регулярке и вернуть новый список
+    return filter_files(flist, items)
+
+def main(data):
     logging.basicConfig(level=logging.INFO)
     
     argvs = "/var/lib/jenkins"
     #depth = 3
     files_pattern = "/nodes/:/users/"
-    archive_file = "/opt/arv.tar.gz"
-
-    flist = [] # Список всех файлов
-
-    #Получть список файлов в корневом катологе
-    root_files = []
-    get_files(argvs, db_files=root_files)
-    #Отфильтровать файлы в корневом катологе
-    root_files = filter_files(root_files, files_pattern)
-    #Получить путь всех файлов в корневом катологе
-    get_files(argvs, list_files=root_files, db_files=flist, recursive=True)
-
-    #Отфильтровать по глубине
-    #depth = 3
-
-    #Отфильтровать мусор по регулярке
-    flist = filter_files(flist, files_pattern)
+    load(argvs, files_pattern, recursive=True)
     #Архивирование данных
+    archive_file = "/opt/arv.tar.gz"
     create_archive(archive_file, flist)
 
 def create_archive(file_path, files):
@@ -62,7 +63,6 @@ def filter_files(db_files, patterns):
     return sorted(filter_list)
 
 def get_files(path, list_files=None, db_files=[], recursive=False):
-    #depth
     if isinstance(list_files, list):
         files = list_files
     else:    
@@ -88,7 +88,7 @@ def is_dir(file):
 def get_path(path, file):
     return os.path.join(path, file)
 
-def load_data(path):
+def load_configs(path):
     try:
         fconfig = open(path, 'r')
         return json.load(fconfig)
@@ -103,6 +103,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Files dump')
     parser.add_argument('--config', help='/your/path/json/config/file', default=config_default)
     arguments = parser.parse_args(sys.argv[1:])
-    data = load_data(arguments.config)
-    print data
-    #main()
+    configs = load_configs(arguments.config)
+    if configs:
+        main(configs)
