@@ -15,6 +15,7 @@ def get_jobs():
     print 'jobs'
 
 def get_default_configs(path):
+    print path
     return get_path(path, '/etc/files_dump.conf')
 
 def main():
