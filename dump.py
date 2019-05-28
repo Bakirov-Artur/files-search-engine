@@ -38,10 +38,10 @@ def load(path, items, depth=0, recursive=False):
 def filter_depth(depth, files):
     filter_list = []
     for f in files:
-        sf  = f.split('/')
+        sf  = f.split('/')[1:]
         print(sf)
-        count = len(sf[1:])
-        if count < depth:
+        count = len(sf)
+        if count <= depth:
             logging.info("filter_depth: depth: %d file: %s" % (count, f))
             filter_list.append(f)
     return filter_list
