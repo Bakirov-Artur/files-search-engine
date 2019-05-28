@@ -14,7 +14,7 @@ import argparse
 def get_jobs():
     print 'jobs'
 
-def get_default_configs():
+def get_default_configs(path):
     return get_path(app_path, '/etc/files_dump.conf')
 
 def main():
@@ -91,7 +91,7 @@ def get_path(path, file):
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
     app_path = os.path.dirname(os.path.abspath( __file__ ))
-    config_default = get_default_configs()
+    config_default = get_default_configs(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
     parser.add_argument('--config', help='/your/path/json/config', default=config_default)
