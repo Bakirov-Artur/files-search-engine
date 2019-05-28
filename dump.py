@@ -13,7 +13,7 @@ import json
 def get_jobs():
     print 'jobs'
 
-def get_config:
+def get_config():
     return """
         {
             "dirs":[
