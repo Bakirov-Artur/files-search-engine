@@ -88,25 +88,21 @@ def is_dir(file):
 def get_path(path, file):
     return os.path.join(path, file)
 
-def load_config_data(path):
+def load_data(path):
     try:
         fconfig = open(path, 'r')
         return json.load(fconfig)
     except IOError:
         logging.error("file: %s not found." % (path))
-
-
    
-
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
     app_path = os.path.dirname(os.path.abspath(__file__))
     config_default = get_default_configs(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
-    parser.add_argument('--config', help='/your/path/json/config', default=config_default)
+    parser.add_argument('--config', help='/your/path/json/config/file', default=config_default)
     arguments = parser.parse_args(sys.argv[1:])
-    print arguments
-    config_data = load_config_data(arguments.config)
-    print config_data
+    data = load_data(arguments.config)
+    print data
     #main()
