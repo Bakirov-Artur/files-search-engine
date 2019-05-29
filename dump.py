@@ -67,8 +67,8 @@ def main(data):
     archive_file = "/opt/arv.tar.gz"
     create_archive(archive_file, flist)
 
-def create_archive(file_name, files, recursive=False, archive_type="gz"):
-    archive = tarfile.open(file_name, ":".join(["w", archive_type]))
+def create_archive(name, files, recursive=False, archive_type="gz"):
+    archive = tarfile.open(name, ":".join(["w", archive_type]))
     for f in files:
         archive.add(f, recursive=recursive)
         logging.info("archive add file: %s" % (f))
