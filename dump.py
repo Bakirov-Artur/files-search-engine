@@ -29,27 +29,21 @@ def load(path, items, depth=0, recursive=False):
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=depth)
 
     #Отфильтровать по глубине
-    # if depth > 0:
-    #     count = len(root_path.split('/')[1:]) + depth
-    #     flist = filter_depth(count, flist)
+    flist = filter_depth(count, depth)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
 
-def filter_depth(depth, files):
+def filter_depth(files, depth):
     filter_list = []
     for f in files:
-        sf  = f.split('/')[1:]
-        print(sf)
-        count = len(sf)
-        if count <= depth:
-            logging.info("filter_depth: depth: %d file: %s" % (count, f))
+        if check_depth(f, depth):
             filter_list.append(f)
     return filter_list
 
 def check_depth(path, depth=0):
     len_path = len(path.split('/')[1:])
     if len_path <= depth or depth > -1:
-        print("check depth: depth: %d path: %s" % (len_path, path))
+        logging.info("check depth: depth: %d path: %s" % (len_path, path))
         return True
 
     return False
