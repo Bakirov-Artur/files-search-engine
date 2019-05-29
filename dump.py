@@ -22,6 +22,7 @@ def load(path, items, depth=0, recursive=False):
     root_files = []
     root_path = os.path.normpath(path)
     #Получть список файлов в корневом катологе
+    logging.info("Get root files")
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
@@ -30,6 +31,7 @@ def load(path, items, depth=0, recursive=False):
 
     #Отфильтровать по глубине
     if depth > 0:
+        logging.info("Get filter depth files")
         count = len(root_path.split('/')[1:]) + depth
         flist = filter_depth(flist, count)
     #Отфильтровать мусор по регулярке и вернуть новый список
