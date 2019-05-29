@@ -22,27 +22,22 @@ def load(path, items, depth=0, recursive=False, patterns=None):
     root_files = []
     root_path = os.path.abspath(path)
     len_depth = get_len_depth(root_path, depth)
+    patterns_list = init_patterns(patterns)
     #Получть список файлов в корневом катологе
     # logging.info("Get root files")
     # logging.info("def load depth: %d" % depth)
-    
-    print("Get init items: ")
-    print(init_patterns([]))
-    print(init_patterns(""))
-    print(init_patterns(['', '']))
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
-    root_files = filter_files(root_files, items)
+    root_files = filter_files(root_files, patterns_list)
     #Получить путь всех файлов в корневом катологе
     # logging.info("Get chield files")
-    init_patterns(patterns)
-    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns)
+    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
 
     #Отфильтровать по глубине
     # logging.info("Get filter depth files")
     # flist = filter_depth(flist, len_depth)
     #Отфильтровать мусор по регулярке и вернуть новый список
-    return filter_files(flist, items)
+    return filter_files(flist, patterns_list)
 
 def get_len_depth(path, depth):
     return len(path.split('/')[1:]) + depth
@@ -81,8 +76,8 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     archive.close()
 
 def filter_files(db_files, patterns):
-    pattern_list = patterns.split(':')
     filter_list = []
+    pattern_list = init_patterns(patterns)
     #Нужно немного оптимизировать фильтрацию
     for fl in db_files:
         for pt in pattern_list:
