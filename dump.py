@@ -70,9 +70,10 @@ def main(data):
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
-    for f in files:
-        archive.add(f, recursive=recursive)
-        logging.info("archive add file: %s" % (f))
+    if files:
+        for f in files:
+            archive.add(f, recursive=recursive)
+            logging.info("archive add file: %s" % (f))
     archive.close()
 
 def filter_files(db_files, patterns):
