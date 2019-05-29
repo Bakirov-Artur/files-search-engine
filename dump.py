@@ -68,11 +68,11 @@ def main(data):
     create_archive(archive_file, flist)
 
 def create_archive(file_path, files):
-    archive_file = tarfile.open(file_path, "w:gz")
+    archive = tarfile.open(file_path, "w:gz")
     for f in files:
-        archive_file.add(f)
+        archive.add(f)
         logging.info("archive add file: %s" % (f))
-    archive_file.close()
+    archive.close()
 
 def filter_files(db_files, patterns):
     pattern_list = patterns.split(':')
