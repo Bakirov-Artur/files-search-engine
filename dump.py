@@ -29,7 +29,9 @@ def load(path, items, depth=0, recursive=False):
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=depth)
 
     #Отфильтровать по глубине
-    flist = filter_depth(flist, depth)
+    if depth > 0:
+        count = len(root_path.split('/')[1:]) + depth
+        flist = filter_depth(flist, count)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
 
@@ -42,8 +44,8 @@ def filter_depth(files, depth):
 
 def check_depth(path, depth=0):
     len_path = len(path.split('/')[1:])
-    if len_path <= depth or depth > -1:
-        logging.info("check depth: depth: %d path: %s" % (len_path, path))
+    if len_path <= depth or depth == 0:
+        logging.info("check depth: depth: %d len_path: %d path: %s" % (depth, len_path, path))
         return True
 
     return False
