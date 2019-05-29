@@ -27,8 +27,9 @@ def load(path, items, depth=0, recursive=False, patterns=None):
     # logging.info("def load depth: %d" % depth)
     
     print("Get init items: ")
-    print(init_patterns(["/asdf", "qwer"]))
-
+    print(init_patterns([]))
+    print(init_patterns(""))
+    print(init_patterns(['', '']))
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
@@ -92,9 +93,9 @@ def filter_files(db_files, patterns):
     return sorted(filter_list)
 
 def init_patterns(patterns_list):
+    plist = []
     if isinstance(patterns_list, basestring):
         pattern = re.compile(':')
-        plist = []
         if pattern.search(patterns_list):
             patterns = patterns_list.split(':')
             for pts in patterns:
@@ -106,7 +107,10 @@ def init_patterns(patterns_list):
             plist.append(os.path.normpath(patterns_list))
             return plist
     elif isinstance(patterns_list, list) and len(patterns_list):
-        return patterns_list       
+        for pts in patterns_list:
+            if pts: 
+                plist.append(os.path.normpath(pts))
+        return plist       
     return None;
 
 def is_patterns(path, patterns):
