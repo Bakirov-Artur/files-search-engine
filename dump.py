@@ -110,7 +110,8 @@ def init_patterns(patterns_list):
         for pts in patterns_list:
             if pts: 
                 plist.append(os.path.normpath(pts))
-        return plist       
+        if plist:
+            return plist       
     return None;
 
 def is_patterns(path, patterns):
