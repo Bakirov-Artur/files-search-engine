@@ -17,12 +17,12 @@ def get_jobs():
 def get_default_configs(path):
     return get_path(path, 'etc/files_dump.conf')
 
-def load(path, items, depth=0, recursive=False, patterns=None):
+def load(path, items, depth=0, recursive=False):
     flist = [] # Список всех файлов
     root_files = []
     root_path = os.path.abspath(path)
     len_depth = get_len_depth(root_path, depth)
-    patterns_list = init_patterns(patterns)
+    patterns_list = init_patterns(items)
     #Получть список файлов в корневом катологе
     # logging.info("Get root files")
     # logging.info("def load depth: %d" % depth)
