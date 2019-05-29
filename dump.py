@@ -21,6 +21,7 @@ def load(path, items, depth=0, recursive=False):
     flist = [] # Список всех файлов
     root_files = []
     root_path = os.path.normpath(path)
+    len_depth = get_len_depth(root_depth, depth)
     #Получть список файлов в корневом катологе
     logging.info("Get root files")
     logging.info("def load depth: %d" % depth)
@@ -28,15 +29,16 @@ def load(path, items, depth=0, recursive=False):
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
     #Получить путь всех файлов в корневом катологе
-    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=depth)
+    logging.info("Get chield files")
+    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth)
 
     #Отфильтровать по глубине
-    if depth > 0:
-        logging.info("Get filter depth files")
-        count = len(root_path.split('/')[1:]) + depth
-        flist = filter_depth(flist, count)
+    logging.info("Get filter depth files")
+    flist = filter_depth(flist, len_depth)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
+def get_len_depth(path, depth):
+    return len(path.split('/')[1:]) + depth
 
 def filter_depth(files, depth):
     filter_list = []
