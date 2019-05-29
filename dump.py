@@ -17,7 +17,7 @@ def get_jobs():
 def get_default_configs(path):
     return get_path(path, 'etc/files_dump.conf')
 
-def load(path, items, depth=0, recursive=False):
+def load(path, items, depth=0, recursive=False, patterns=None):
     flist = [] # Список всех файлов
     root_files = []
     root_path = os.path.abspath(path)
@@ -25,12 +25,17 @@ def load(path, items, depth=0, recursive=False):
     #Получть список файлов в корневом катологе
     # logging.info("Get root files")
     # logging.info("def load depth: %d" % depth)
+    
+    print("Get init items: ")
+    print(init_patterns(items))
+
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
     #Получить путь всех файлов в корневом катологе
     # logging.info("Get chield files")
-    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth)
+    init_patterns(patterns)
+    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns)
 
     #Отфильтровать по глубине
     # logging.info("Get filter depth files")
@@ -77,6 +82,7 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
 def filter_files(db_files, patterns):
     pattern_list = patterns.split(':')
     filter_list = []
+    #Нужно немного оптимизировать фильтрацию
     for fl in db_files:
         for pt in pattern_list:
             pattern = re.compile(os.path.normpath(pt))
@@ -85,7 +91,29 @@ def filter_files(db_files, patterns):
                 filter_list.append(fl)
     return sorted(filter_list)
 
-def get_files(path, list_files=None, db_files=[], recursive=False, depth=0):
+def init_patterns(patterns_list):
+    if isinstance(patterns_list, basestring):
+        pattern = re.compile(':')
+        plist = []
+        if pattern.search(patterns_list):
+            patterns = patterns_list.split(':')
+            for pts in patterns:
+                if pts: 
+                    plist.append(os.path.normpath(pts))
+            if plist:
+                return plist
+        elif patterns_list:
+            plist.append(os.path.normpath(patterns_list))
+            return plist
+    elif isinstance(patterns_list, list) and len(patterns_list):
+        return patterns_list       
+    return None;
+
+def is_patterns(path, patterns):
+
+    return True
+
+def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     if isinstance(list_files, list):
         files = list_files
     else:    
