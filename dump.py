@@ -87,7 +87,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0):
     src_path = os.path.normpath(path)
     for file in files:
         path_file = get_path(src_path, file)
-        if check_depth(path_file, depth):
+        if check_depth(path_file, depth=depth):
             #recursive block
             if recursive and is_dir(path_file):
                 chld_files = ls_dir(path_file)
