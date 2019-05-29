@@ -21,7 +21,7 @@ def load(path, items, depth=0, recursive=False):
     flist = [] # Список всех файлов
     root_files = []
     root_path = os.path.normpath(path)
-    len_depth = get_len_depth(root_depth, depth)
+    len_depth = get_len_depth(root_path, depth)
     #Получть список файлов в корневом катологе
     logging.info("Get root files")
     logging.info("def load depth: %d" % depth)
