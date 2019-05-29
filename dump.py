@@ -79,13 +79,14 @@ def filter_files(db_files, patterns):
     filter_list = []
     pattern_list = init_patterns(patterns)
     #Нужно немного оптимизировать фильтрацию
-    for fl in db_files:
-        for pt in pattern_list:
-            pattern = re.compile(os.path.normpath(pt))
-            result = pattern.search(fl)
-            if result and fl not in filter_list:
-                filter_list.append(fl)
-    return sorted(filter_list)
+    if pattern_list:
+        for fl in db_files:
+            for pt in pattern_list:
+                pattern = re.compile(os.path.normpath(pt))
+                result = pattern.search(fl)
+                if result and fl not in filter_list:
+                    filter_list.append(fl)
+        return sorted(filter_list)
 
 def init_patterns(patterns_list):
     plist = []
