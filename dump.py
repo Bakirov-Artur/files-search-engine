@@ -29,7 +29,7 @@ def load(path, items, depth=0, recursive=False):
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=depth)
 
     #Отфильтровать по глубине
-    flist = filter_depth(count, depth)
+    flist = filter_depth(flist, depth)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
 
