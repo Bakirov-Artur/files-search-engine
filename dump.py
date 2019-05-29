@@ -70,7 +70,7 @@ def main(data):
 def create_archive(file_path, files):
     archive = tarfile.open(file_path, "w:gz")
     for f in files:
-        archive.add(f)
+        archive.add(f, recursive=False)
         logging.info("archive add file: %s" % (f))
     archive.close()
 
