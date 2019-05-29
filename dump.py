@@ -27,7 +27,7 @@ def load(path, items, depth=0, recursive=False, patterns=None):
     # logging.info("def load depth: %d" % depth)
     
     print("Get init items: ")
-    print(init_patterns(items))
+    print(init_patterns(["/asdf", "qwer"]))
 
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
