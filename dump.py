@@ -23,6 +23,7 @@ def load(path, items, depth=0, recursive=False):
     root_path = os.path.normpath(path)
     #Получть список файлов в корневом катологе
     logging.info("Get root files")
+    logging.info("def load depth: %d" % depth)
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
