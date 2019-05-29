@@ -87,8 +87,6 @@ def filter_files(db_files, patterns):
                 result = pattern.search(fl)
                 if result and fl not in filter_list:
                     filter_list.append(fl)
-    if not filter_list:
-        filter_list = db_files
     return sorted(filter_list)
 
 def init_patterns(patterns_list):
