@@ -68,7 +68,7 @@ def main(data):
     create_archive(archive_file, flist)
 
 def create_archive(file_name, files, recursive=False, archive_type="gz"):
-    archive = tarfile.open(file_name, ":".join(["w", archive_type])
+    archive = tarfile.open(file_name, ":".join(["w", archive_type]))
     for f in files:
         archive.add(f, recursive=recursive)
         logging.info("archive add file: %s" % (f))
