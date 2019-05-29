@@ -26,12 +26,12 @@ def load(path, items, depth=0, recursive=False):
     #Отфильтровать файлы в корневом катологе
     root_files = filter_files(root_files, items)
     #Получить путь всех файлов в корневом катологе
-    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive)
+    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=depth)
 
     #Отфильтровать по глубине
-    if depth > 0:
-        count = len(root_path.split('/')[1:]) + depth
-        flist = filter_depth(count, flist)
+    # if depth > 0:
+    #     count = len(root_path.split('/')[1:]) + depth
+    #     flist = filter_depth(count, flist)
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, items)
 
@@ -45,6 +45,14 @@ def filter_depth(depth, files):
             logging.info("filter_depth: depth: %d file: %s" % (count, f))
             filter_list.append(f)
     return filter_list
+
+def check_depth(path, depth=0):
+    len_path = len(path.split('/')[1:])
+    if len_path <= depth or depth > -1:
+        print("check depth: depth: %d path: %s" % (len_path, path))
+        return True
+
+    return False
 
 def main(data):
     logging.basicConfig(level=logging.INFO)
@@ -75,7 +83,7 @@ def filter_files(db_files, patterns):
                 filter_list.append(fl)
     return sorted(filter_list)
 
-def get_files(path, list_files=None, db_files=[], recursive=False):
+def get_files(path, list_files=None, db_files=[], recursive=False, depth=0):
     if isinstance(list_files, list):
         files = list_files
     else:    
@@ -83,14 +91,15 @@ def get_files(path, list_files=None, db_files=[], recursive=False):
     src_path = os.path.normpath(path)
     for file in files:
         path_file = get_path(src_path, file)
-        #recursive block
-        if recursive and is_dir(path_file):
-            chld_files = ls_dir(path_file)
-            get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True)
-            #logging.info("dir: %s" % (path_file))
-        #else:
-            #logging.info("file: %s" % (path_file))
-        db_files.append(path_file)
+        if check_depth(path_file, depth):
+            #recursive block
+            if recursive and is_dir(path_file):
+                chld_files = ls_dir(path_file)
+                get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True)
+                #logging.info("dir: %s" % (path_file))
+            #else:
+                #logging.info("file: %s" % (path_file))
+            db_files.append(path_file)
 
 def ls_dir(path):
     return os.listdir(path)
