@@ -50,11 +50,8 @@ def filter_depth(files, depth):
 
 def check_depth(path, depth=0, sep=os.sep):
     len_path =len(path.split(sep)[1:])
-    logging.info("check depth len_path: %d path: %s" % (len_path, path))
     if len_path <= depth or depth == 0:
-        logging.info("check depth: depth: %d len_path: %d path: %s" % (depth, len_path, path))
         return True
-
     return False
 
 def main(data):
@@ -147,11 +144,9 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 path_file = get_path(src_path, file)
         else:
             path_file = get_path(src_path, file)
-        logging.info("path_file: %s" % (path_file))
-        logging.info("path_file depth: %d" % (depth))
+
         if check_depth(path_file, depth=depth):
             #recursive block
-            logging.info("check_depth: %d" % (depth))
             if recursive and is_dir(path_file):
                 chld_files = ls_dir(path_file)
                 get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth)
