@@ -28,7 +28,7 @@ def load(path, items, depth=0, recursive=False):
     # logging.info("def load depth: %d" % depth)
     get_files(root_path, db_files=root_files)
     #Отфильтровать файлы в корневом катологе
-    root_files = filter_files(root_files, patterns_list)
+    # root_files = filter_files(root_files, patterns_list)
     #Получить путь всех файлов в корневом катологе
     # logging.info("Get chield files")
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
@@ -37,7 +37,8 @@ def load(path, items, depth=0, recursive=False):
     # logging.info("Get filter depth files")
     # flist = filter_depth(flist, len_depth)
     #Отфильтровать мусор по регулярке и вернуть новый список
-    return filter_files(flist, patterns_list)
+    #return filter_files(flist, patterns_list)
+    return flist
 
 def get_len_depth(path, depth, sep=os.sep):
     return len(path.split(sep)[1:]) + depth
@@ -120,7 +121,7 @@ def is_patterns(path, patterns):
                 return True
     elif not patterns:
         return True
-        
+
     return False
 
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
