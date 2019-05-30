@@ -33,7 +33,8 @@ def load(path, items, depth=0, recursive=False):
     logging.info("Get chield files:")
     print root_files
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
-
+    logging.info("Chield files:")
+    print flist
     #Отфильтровать по глубине
     # logging.info("Get filter depth files")
     # flist = filter_depth(flist, len_depth)
