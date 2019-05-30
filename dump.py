@@ -30,7 +30,7 @@ def load(path, items, depth=0, recursive=False):
     #Отфильтровать файлы в корневом катологе
     # root_files = filter_files(root_files, patterns_list)
     #Получить путь всех файлов в корневом катологе
-    # logging.info("Get chield files")
+    logging.info("Get chield files")
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
 
     #Отфильтровать по глубине
