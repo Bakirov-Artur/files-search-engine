@@ -39,8 +39,8 @@ def load(path, items, depth=0, recursive=False):
     #Отфильтровать мусор по регулярке и вернуть новый список
     return filter_files(flist, patterns_list)
 
-def get_len_depth(path, depth):
-    return len(path.split('/')[1:]) + depth
+def get_len_depth(path, depth, sep=os.sep):
+    return len(path.split(sep)[1:]) + depth
 
 def filter_depth(files, depth):
     filter_list = []
@@ -49,8 +49,8 @@ def filter_depth(files, depth):
             filter_list.append(f)
     return filter_list
 
-def check_depth(path, depth=0):
-    len_path = len(path.split('/')[1:])
+def check_depth(path, depth=0, sep=os.sep):
+    len_path = len(path.split(sep)[1:])
     if len_path <= depth or depth == 0:
         # logging.info("check depth: depth: %d len_path: %d path: %s" % (depth, len_path, path))
         return True
@@ -89,31 +89,29 @@ def filter_files(db_files, patterns):
                     filter_list.append(fl)
     return sorted(filter_list)
 
-def init_patterns(patterns_list):
+def init_patterns(patterns_list, sep=':'):
     plist = []
     if isinstance(patterns_list, basestring):
-        pattern = re.compile(':')
+        pattern = re.compile(sep)
         if pattern.search(patterns_list):
-            patterns = patterns_list.split(':')
+            patterns = patterns_list.split(sep)
             for pts in patterns:
                 if pts: 
                     plist.append(os.path.normpath(pts))
-            if plist:
-                return plist
         elif patterns_list:
             plist.append(os.path.normpath(patterns_list))
-            return plist
     elif isinstance(patterns_list, list) and len(patterns_list):
         for pts in patterns_list:
             if pts: 
                 plist.append(os.path.normpath(pts))
-        if plist:
-            return plist       
-    return None;
+    if plist:
+        return plist       
+    return None
 
 def is_patterns(path, patterns):
-
-    return True
+    if patterns or not patterns:
+        return True
+    return False
 
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     if isinstance(list_files, list):
@@ -131,7 +129,8 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 #logging.info("dir: %s" % (path_file))
             #else:
                 #logging.info("file: %s" % (path_file))
-            db_files.append(path_file)
+            if is_patterns(path, patterns):
+                db_files.append(path_file)
 
 def ls_dir(path):
     return os.listdir(path)
