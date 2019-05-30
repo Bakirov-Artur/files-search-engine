@@ -145,6 +145,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
             # else:
             #     logging.info("file: %s" % (path_file))
             if is_patterns(path_file, patterns):
+                logging.info("list add path: %s" % (path_file))
                 db_files.append(path_file)
 
 def ls_dir(path):
