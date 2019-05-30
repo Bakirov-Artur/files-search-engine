@@ -146,7 +146,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 path_file = get_path(src_path, file)
         else:
             path_file = get_path(src_path, file)
-        
+        logging.info("path_file: %s" % (path_file))
         if check_depth(path_file, depth=depth):
             #recursive block
             if recursive and is_dir(path_file):
