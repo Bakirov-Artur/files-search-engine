@@ -114,6 +114,7 @@ def init_patterns(patterns_list, sep=':'):
 def is_patterns(path, patterns):
     #os.path.splitext('*.ta')
     if patterns:
+        logging.info("Is patterns path: %s" % (path))
         for pt in patterns:
             #os.path.splitext('*.ta')
             pattern = re.compile(os.path.normpath(pt))
