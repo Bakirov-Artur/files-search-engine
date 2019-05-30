@@ -76,18 +76,20 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
             logging.info("archive add file: %s" % (f))
     archive.close()
 
-def filter_files(db_files, patterns):
+def is_duplicate(item, data_list):
+    return item not in data_list
+
+def filter_files(db_files, patterns, sort=True):
     filter_list = []
     pattern_list = init_patterns(patterns)
     #Нужно немного оптимизировать фильтрацию
     if pattern_list:
         for fl in db_files:
-            for pt in pattern_list:
-                pattern = re.compile(os.path.normpath(pt))
-                result = pattern.search(fl)
-                if result and fl not in filter_list:
-                    filter_list.append(fl)
-    return sorted(filter_list)
+            if is_patterns(fl, pattern_list) and is_duplicate(fl, filter_list):
+                filter_list.append(fl)
+    if sort:
+        filter_list = sorted(filter_list)
+    return filter_list
 
 def init_patterns(patterns_list, sep=':'):
     plist = []
@@ -109,8 +111,13 @@ def init_patterns(patterns_list, sep=':'):
     return None
 
 def is_patterns(path, patterns):
+    #os.path.splitext('*.ta')
     if patterns or not patterns:
-        return True
+        for pt in patterns:
+            #os.path.splitext('*.ta')
+            pattern = re.compile(os.path.normpath(pt))
+            if pattern.search(path):
+                return True
     return False
 
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
