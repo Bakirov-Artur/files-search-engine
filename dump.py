@@ -137,10 +137,10 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
             if recursive and is_dir(path_file):
                 chld_files = ls_dir(path_file)
                 get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth)
-                #logging.info("dir: %s" % (path_file))
-            else:
-                logging.info("file: %s" % (path_file))
-            if is_patterns(path, patterns):
+            #     #logging.info("dir: %s" % (path_file))
+            # else:
+            #     logging.info("file: %s" % (path_file))
+            if is_patterns(path_file, patterns):
                 db_files.append(path_file)
 
 def ls_dir(path):
