@@ -79,7 +79,9 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     archive.close()
 
 def is_duplicate(item, data_list):
-    return item not in data_list
+    if item not in data_list
+        return True
+    return False
 
 def filter_files(db_files, patterns, normalize_pattern=False, sort=False):
     filter_list = []
@@ -146,9 +148,9 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
             #     #logging.info("dir: %s" % (path_file))
             # else:
             #     logging.info("file: %s" % (path_file))
-                if is_patterns(path_file, patterns) and is_duplicate(patterns, db_files):
-                    db_files.append(path_file)
-                    logging.info("add file: %s" % (path_file))
+            if is_patterns(path_file, patterns) and is_duplicate(patterns, db_files):
+                db_files.append(path_file)
+                logging.info("add file: %s" % (path_file))
 
 def ls_dir(path):
     return os.listdir(path)
