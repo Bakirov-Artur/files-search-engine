@@ -43,7 +43,7 @@ def load(path, items, depth=0, recursive=False):
     return flist
 
 def get_len_depth(path, depth, sep=os.sep):
-    return len(path.split(sep)[1:]) + depth
+    return len(sep.split(path)[1:]) + depth
 
 def filter_depth(files, depth):
     filter_list = []
