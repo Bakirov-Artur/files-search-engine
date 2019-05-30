@@ -138,8 +138,13 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
     else:    
         files = ls_dir(path)
     src_path = os.path.normpath(path)
+    path_file = None
     for file in files:
-        path_file = get_path(src_path, file)
+        if os.path.isabs(file):
+            path_file = file
+        else:
+            path_file = get_path(src_path, file)
+
         if check_depth(path_file, depth=depth):
             #recursive block
             if recursive and is_dir(path_file):
