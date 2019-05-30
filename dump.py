@@ -115,10 +115,13 @@ def is_patterns(path, patterns):
     #os.path.splitext('*.ta')
     if patterns:
         logging.info("Is patterns path: %s" % (path))
-        for pt in patterns:
+        for pattern in patterns:
             #os.path.splitext('*.ta')
-            pattern = re.compile(os.path.normpath(pt))
-            if pattern.search(path):
+            pattern = os.path.normpath(pattern)
+            re_pattern = re.compile(pattern)
+            search = re_pattern.search(path)
+            logging.info("Is patterns search: %s" % (search))
+            if search:
                 return True
     elif not patterns:
         return True
