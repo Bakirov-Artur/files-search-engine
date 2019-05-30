@@ -142,7 +142,11 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
     path_file = None
     for file in files:
         if os.path.isabs(file):
-            path_file = file
+            re_pattern = re.compile(path)
+            if re_pattern.search(file):
+                path_file = file
+            else:
+                path_file = get_path(src_path, file)
         else:
             path_file = get_path(src_path, file)
 
