@@ -51,7 +51,7 @@ def filter_depth(files, depth):
     return filter_list
 
 def check_depth(path, depth=0, sep=os.sep):
-    len_path = len(path.split(sep)[1:])
+    len_path = get_len_depth(path, depth)
     if len_path <= depth or depth == 0:
         # logging.info("check depth: depth: %d len_path: %d path: %s" % (depth, len_path, path))
         return True
