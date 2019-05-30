@@ -79,7 +79,7 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     archive.close()
 
 def is_duplicate(item, data_list):
-    if item not in data_list
+    if item not in data_list:
         return True
     return False
 
