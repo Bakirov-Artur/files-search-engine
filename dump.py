@@ -30,11 +30,7 @@ def load(path, items, depth=0, recursive=False):
     #Отфильтровать файлы в корневом катологе
     # root_files = filter_files(root_files, patterns_list)
     #Получить путь всех файлов в корневом катологе
-    logging.info("Get chield files:")
-    print root_files
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
-    logging.info("Chield files:")
-    print flist
     #Отфильтровать по глубине
     # logging.info("Get filter depth files")
     # flist = filter_depth(flist, len_depth)
@@ -52,10 +48,10 @@ def filter_depth(files, depth):
             filter_list.append(f)
     return filter_list
 
-def check_depth(path, depth=0, sep=os.sep):
+def check_depth(path, depth=0):
     len_path = get_len_depth(path, depth)
     if len_path <= depth or depth == 0:
-        # logging.info("check depth: depth: %d len_path: %d path: %s" % (depth, len_path, path))
+        logging.info("check depth: depth: %d len_path: %d path: %s" % (depth, len_path, path))
         return True
 
     return False
@@ -146,22 +142,22 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
             if re_pattern.search(file):
                 path_file = file
             else:
+                #добавление в конец не правильный
                 path_file = get_path(src_path, file)
         else:
             path_file = get_path(src_path, file)
-        logging.info("files index: %s" % (path_file))
+        
         if check_depth(path_file, depth=depth):
             #recursive block
-            logging.info("check_depth: %s" % (path_file))
             if recursive and is_dir(path_file):
                 chld_files = ls_dir(path_file)
                 get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth)
-                logging.info("dir: %s" % (path_file))
+                # logging.info("dir: %s" % (path_file))
             # else:
             #     logging.info("file: %s" % (path_file))
             if is_patterns(path_file, patterns) and is_duplicate(path_file, db_files):
                 db_files.append(path_file)
-                logging.info("add file: %s" % (path_file))
+                # logging.info("add file: %s" % (path_file))
 
 def ls_dir(path):
     return os.listdir(path)
