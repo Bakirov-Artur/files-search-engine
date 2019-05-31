@@ -145,7 +145,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
     files = get_dir_files(path, files=list_files);
     if isinstance(files, basestring) and is_it_possible_add(files, patterns, files=db_files):
         db_files.append(files)
-    else:
+    elif files:
         for file in files:
             path_file = None
             if os.path.isabs(file):
@@ -169,6 +169,8 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 if is_it_possible_add(path_file, patterns, files=db_files):
                     db_files.append(path_file)
                     # logging.info("add file: %s" % (path_file))
+    else:
+        logging.error("file: %s not found." % (path))
 
 def ls_dir(path):
     src_path = os.path.normpath(path)
