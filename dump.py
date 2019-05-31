@@ -61,7 +61,7 @@ def main(data):
     logging.basicConfig(level=logging.INFO)
     dp = data.get("dump")
     print dp
-    archive_file = ''.join([dp.get('path'), dp.get('type')])
+    archive_file = ''.join([dp.get('path'), dp.get('name'), dp.get('type')])
     items = dp.get('items')
     archive_flist = []
     for item in items:
@@ -170,7 +170,11 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 # logging.info("add file: %s" % (path_file))
 
 def ls_dir(path):
-    return os.listdir(path)
+    try:
+        return os.listdir(path)
+    except os.error as e:
+        logging.error("%s" % (e))
+    return []
 
 def is_dir(file):
     return os.path.isdir(file)
