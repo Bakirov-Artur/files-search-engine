@@ -136,7 +136,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
         files = ls_dir(path)
         if not files and is_it_possible_add(path, patterns, files=db_files):
            db_files.append(path_file) 
-    
+    print files
     for file in files:
         path_file = None
         if os.path.isabs(file):
@@ -166,7 +166,7 @@ def ls_dir(path):
     if not is_dir(src_path):
         logging.error("%s" % (e))
         return []
-    return is_dir(src_path)
+    return os.listdir(src_path)
 
 def is_dir(path):
     src_path = os.path.normpath(path)
