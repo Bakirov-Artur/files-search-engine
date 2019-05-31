@@ -136,7 +136,6 @@ def get_dir_files(path, files=None):
     elif is_dir(path):    
         ls = ls_dir(path)
         if not ls:
-            print path
             fls = path
         fls = ls
     return fls
@@ -145,6 +144,7 @@ def get_dir_files(path, files=None):
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     files = get_dir_files(path, files=list_files);
     if isinstance(files, basestring) and is_it_possible_add(path, patterns, files=db_files):
+        print path
         db_files.append(path)
     else:
         for file in files:
