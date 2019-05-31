@@ -168,7 +168,7 @@ def ls_dir(path):
         return []
     return is_dir(src_path)
 
-def is_dir(file):
+def is_dir(path):
     src_path = os.path.normpath(path)
     return os.path.isdir(src_path)
 
