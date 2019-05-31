@@ -129,13 +129,28 @@ def is_patterns(path, patterns):
 def is_it_possible_add(path, patterns, files=[]):
     return is_patterns(path, patterns) and is_duplicate(path, files)
 
+def get_dir_files(path, files=None):
+    fls = []
+    if isinstance(files, list):
+        fls = files
+    elif is_dir(path):    
+        ls = ls_dir(path)
+        if not ls:
+            fls = [path]
+        fls = ls
+    return fls
+
+
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     if isinstance(list_files, list):
         files = list_files
     elif is_dir(path):    
         files = ls_dir(path)
         if not files and is_it_possible_add(path, patterns, files=db_files):
-           db_files.append(path) 
+           db_files.append(path)
+    else:
+        files = []
+
     for file in files:
         path_file = None
         if os.path.isabs(file):
