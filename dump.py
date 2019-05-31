@@ -24,18 +24,9 @@ def load(path, items, depth=0, recursive=False):
     len_depth = get_len_depth(root_path, depth)
     patterns_list = init_patterns(items)
     #Получть список файлов в корневом катологе
-    # logging.info("Get root files")
-    # logging.info("def load depth: %d" % depth)
     get_files(root_path, db_files=root_files, patterns=patterns_list)
     #Отфильтровать файлы в корневом катологе
-    # root_files = filter_files(root_files, patterns_list)
-    #Получить путь всех файлов в корневом катологе
     get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
-    #Отфильтровать по глубине
-    # logging.info("Get filter depth files")
-    # flist = filter_depth(flist, len_depth)
-    #Отфильтровать мусор по регулярке и вернуть новый список
-    #return filter_files(flist, patterns_list)
     return flist
 
 def get_len_depth(path, depth, sep=os.sep):
@@ -63,7 +54,7 @@ def main(data):
     print dp
     archive_file = ''.join([dp.get('path'), dp.get('name'),'.', dp.get('type')])
     items = dp.get('items')
-    archive_flist = []
+    files_list = []
     for item in items:
         path = item.get('path')
         depth = item.get('depth') or 0
@@ -71,11 +62,9 @@ def main(data):
         patterns = item.get('items')
         flist = load(path, patterns, depth=depth, recursive=recursive)
         if flist:
-            archive_flist = archive_flist + flist
-    # files_pattern = "/nodes/:/users/"
-    # flist = load(argvs, files_pattern, depth=depth, recursive=True)
+            files_list = files_list + flist
     #Архивирование данных
-    create_archive(archive_file, archive_flist)
+    create_archive(archive_file, files_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
@@ -86,9 +75,7 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     archive.close()
 
 def is_duplicate(item, data_list):
-    if item not in data_list:
-        return True
-    return False
+    return item not in data_list:
 
 def filter_files(db_files, patterns, normalize_pattern=False, sort=False):
     filter_list = []
@@ -139,14 +126,19 @@ def is_patterns(path, patterns):
 
     return False
 
+def is_it_possible_add(path, patterns, files=[]):
+    return is_patterns(path, patterns) and is_duplicate(path, files):
+
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     if isinstance(list_files, list):
         files = list_files
-    else:    
+    elif is_dir(path):    
         files = ls_dir(path)
-    src_path = os.path.normpath(path)
-    path_file = None
+        if not files and is_it_possible_add(path, patterns, files=db_files):
+           db_files.append(path_file) 
+    
     for file in files:
+        path_file = None
         if os.path.isabs(file):
             re_pattern = re.compile(path)
             if re_pattern.search(file):
@@ -165,19 +157,20 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 # logging.info("dir: %s" % (path_file))
             # else:
             #     logging.info("file: %s" % (path_file))
-            if is_patterns(path_file, patterns) and is_duplicate(path_file, db_files):
+            if is_it_possible_add(path_file, patterns, files=db_files):
                 db_files.append(path_file)
                 # logging.info("add file: %s" % (path_file))
 
 def ls_dir(path):
-    try:
-        return os.listdir(path)
-    except os.error as e:
+    src_path = os.path.normpath(path)
+    if not is_dir(src_path)
         logging.error("%s" % (e))
-    return []
+        return []
+    return is_dir(src_path)
 
 def is_dir(file):
-    return os.path.isdir(file)
+    src_path = os.path.normpath(path)
+    return os.path.isdir(src_path)
 
 def get_path(path, file):
     return os.path.join(path, file)
