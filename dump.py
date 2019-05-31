@@ -127,7 +127,7 @@ def is_patterns(path, patterns):
     return False
 
 def is_it_possible_add(path, patterns, files=[]):
-    return is_patterns(path, patterns) and is_duplicate(path, files):
+    return is_patterns(path, patterns) and is_duplicate(path, files)
 
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     if isinstance(list_files, list):
