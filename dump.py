@@ -130,42 +130,45 @@ def is_it_possible_add(path, patterns, files=[]):
     return is_patterns(path, patterns) and is_duplicate(path, files)
 
 def get_dir_files(path, files=None):
-    fls = []
+    fls = None
     if isinstance(files, list):
         fls = files
     elif is_dir(path):    
         ls = ls_dir(path)
         if not ls:
-            fls = [path]
+            fls = path
         fls = ls
     return fls
 
 
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     files = get_dir_files(path, files=list_files);
-    for file in files:
-        path_file = None
-        if os.path.isabs(file):
-            re_pattern = re.compile(path)
-            if re_pattern.search(file):
-                path_file = file
+    if isinstance(files, basestring) and is_it_possible_add(path, patterns, files=db_files):
+        db_files.append(path)
+    else:
+        for file in files:
+            path_file = None
+            if os.path.isabs(file):
+                re_pattern = re.compile(path)
+                if re_pattern.search(file):
+                    path_file = file
+                else:
+                    #добавление в конец не правильный
+                    path_file = get_path(path, file)
             else:
-                #добавление в конец не правильный
                 path_file = get_path(path, file)
-        else:
-            path_file = get_path(path, file)
 
-        if check_depth(path_file, depth=depth):
-            #recursive block
-            if recursive and is_dir(path_file):
-                chld_files = ls_dir(path_file)
-                get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth)
-                # logging.info("dir: %s" % (path_file))
-            # else:
-            #     logging.info("file: %s" % (path_file))
-            if is_it_possible_add(path_file, patterns, files=db_files):
-                db_files.append(path_file)
-                # logging.info("add file: %s" % (path_file))
+            if check_depth(path_file, depth=depth):
+                #recursive block
+                if recursive and is_dir(path_file):
+                    chld_files = ls_dir(path_file)
+                    get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth)
+                    # logging.info("dir: %s" % (path_file))
+                # else:
+                #     logging.info("file: %s" % (path_file))
+                if is_it_possible_add(path_file, patterns, files=db_files):
+                    db_files.append(path_file)
+                    # logging.info("add file: %s" % (path_file))
 
 def ls_dir(path):
     src_path = os.path.normpath(path)
