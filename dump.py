@@ -66,8 +66,8 @@ def main(data):
     archive_flist = []
     for item in items:
         path = item.get('path')
-        depth = item.get('depth')
-        recursive = item.get('recursive')
+        depth = item.get('depth') or 0
+        recursive = item.get('recursive') or False
         patterns = item.get('items')
         flist = load(path, patterns, depth=depth, recursive=recursive)
         if flist:
