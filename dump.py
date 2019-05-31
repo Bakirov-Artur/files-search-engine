@@ -24,9 +24,7 @@ def load(path, items, depth=0, recursive=False):
     len_depth = get_len_depth(root_path, depth)
     patterns_list = init_patterns(items)
     #Получть список файлов в корневом катологе
-    get_files(root_path, db_files=root_files, patterns=patterns_list)
-    #Отфильтровать файлы в корневом катологе
-    get_files(root_path, list_files=root_files, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
+    get_files(root_path, db_files=flist, recursive=recursive, depth=len_depth, patterns=patterns_list)
     return flist
 
 def get_len_depth(path, depth, sep=os.sep):
