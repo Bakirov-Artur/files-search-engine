@@ -135,7 +135,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
     elif is_dir(path):    
         files = ls_dir(path)
         if not files and is_it_possible_add(path, patterns, files=db_files):
-           db_files.append(path_file) 
+           db_files.append(path) 
     for file in files:
         path_file = None
         if os.path.isabs(file):
