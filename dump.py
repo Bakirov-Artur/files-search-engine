@@ -163,7 +163,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
 
 def ls_dir(path):
     src_path = os.path.normpath(path)
-    if not is_dir(src_path)
+    if not is_dir(src_path):
         logging.error("%s" % (e))
         return []
     return is_dir(src_path)
