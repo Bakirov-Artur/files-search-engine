@@ -61,7 +61,7 @@ def main(data):
     logging.basicConfig(level=logging.INFO)
     dp = data.get("dump")
     print dp
-    archive_file = ''.join([dp.get('path'), dp.get('name'), dp.get('type')])
+    archive_file = ''.join([dp.get('path'), dp.get('name'), dp.get('.'), dp.get('type')])
     items = dp.get('items')
     archive_flist = []
     for item in items:
