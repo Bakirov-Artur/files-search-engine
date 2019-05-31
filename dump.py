@@ -136,7 +136,6 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
         files = ls_dir(path)
         if not files and is_it_possible_add(path, patterns, files=db_files):
            db_files.append(path_file) 
-    print files
     for file in files:
         path_file = None
         if os.path.isabs(file):
@@ -145,9 +144,9 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 path_file = file
             else:
                 #добавление в конец не правильный
-                path_file = get_path(src_path, file)
+                path_file = get_path(path, file)
         else:
-            path_file = get_path(src_path, file)
+            path_file = get_path(path, file)
 
         if check_depth(path_file, depth=depth):
             #recursive block
