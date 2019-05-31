@@ -142,15 +142,7 @@ def get_dir_files(path, files=None):
 
 
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
-    if isinstance(list_files, list):
-        files = list_files
-    elif is_dir(path):    
-        files = ls_dir(path)
-        if not files and is_it_possible_add(path, patterns, files=db_files):
-           db_files.append(path)
-    else:
-        files = []
-
+    files = get_dir_files(path, files=list_files);
     for file in files:
         path_file = None
         if os.path.isabs(file):
