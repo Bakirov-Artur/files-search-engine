@@ -54,16 +54,22 @@ def check_depth(path, depth=0, sep=os.sep):
         return True
     return False
 
+def load_data(data):
+    pass
+
 def main(data):
     logging.basicConfig(level=logging.INFO)
+    dp = data.get("dump")
+    print dp
     
-    argvs = "/var/lib/jenkins"
-    #depth = 3
-    files_pattern = "/nodes/:/users/"
-    flist = load(argvs, files_pattern, depth=2, recursive=True)
-    #Архивирование данных
-    archive_file = "/opt/arv.tar.gz"
-    create_archive(archive_file, flist)
+
+    # argvs = "/var/lib/jenkins"
+    # depth = 2
+    # files_pattern = "/nodes/:/users/"
+    # flist = load(argvs, files_pattern, depth=depth, recursive=True)
+    # #Архивирование данных
+    # archive_file = "/opt/arv.tar.gz"
+    # create_archive(archive_file, flist)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
