@@ -61,15 +61,21 @@ def main(data):
     logging.basicConfig(level=logging.INFO)
     dp = data.get("dump")
     print dp
-    
-
-    # argvs = "/var/lib/jenkins"
-    # depth = 2
+    archive_file = ''.join(dp.get('path'), dp.get('type'))
+    items = dp.get('items')
+    archive_flist = []
+    for item in items:
+        path = item.get('path')
+        depth = item.get('depth')
+        recursive = item.get('recursive')
+        patterns = item.get('items')
+        flist = load(path, patterns, depth=depth, recursive=recursive)
+        if flist:
+            archive_flist = archive_flist + flist
     # files_pattern = "/nodes/:/users/"
     # flist = load(argvs, files_pattern, depth=depth, recursive=True)
-    # #Архивирование данных
-    # archive_file = "/opt/arv.tar.gz"
-    # create_archive(archive_file, flist)
+    #Архивирование данных
+    create_archive(archive_file, archive_flist)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
