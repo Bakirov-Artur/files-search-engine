@@ -75,7 +75,7 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     archive.close()
 
 def is_duplicate(item, data_list):
-    return item not in data_list:
+    return item not in data_list
 
 def filter_files(db_files, patterns, normalize_pattern=False, sort=False):
     filter_list = []
