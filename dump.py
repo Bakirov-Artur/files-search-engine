@@ -114,7 +114,6 @@ def is_patterns(path, patterns):
     if patterns:
         # logging.debug("Is patterns path: %s" % (path))
         for pattern in patterns:
-            logging.info("Is pattern path: %s %s" % (path, pattern))
             pattern = os.path.normpath(pattern)
             root_path, extension = os.path.splitext(pattern)
             root_path = os.path.normpath(root_path)
@@ -133,6 +132,7 @@ def is_patterns(path, patterns):
             else:
                 re_pattern = re.compile(root_path)
             if re_pattern.search(path):
+                logging.info("Is pattern path: %s %s" % (path, root_path))
                 return True
     elif not patterns:
         return True
