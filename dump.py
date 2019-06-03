@@ -132,8 +132,8 @@ def is_patterns(path, patterns):
             #/path_pattern/*
             else:
                 re_pattern = re.compile(pattern)
-            if re_pattern.search(path):
-                return True
+                if re_pattern.search(path):
+                    return True
     elif not patterns:
         return True
     else:
