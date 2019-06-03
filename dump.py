@@ -61,7 +61,10 @@ def main(data):
         if flist:
             files_list = files_list + flist
     #Архивирование данных
-    create_archive(archive_file, files_list)
+    print flist
+    for f in flist:
+        logging.info("FList path: %s" % (flist))
+    #create_archive(archive_file, files_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
@@ -111,7 +114,6 @@ def init_patterns(patterns_list, sep=':'):
 def is_patterns(path, patterns):
     #os.path.splitext('*.ta')
     if patterns:
-        logging.debug("Is patterns path: %s" % (path))
         for pattern in patterns:
             pattern = os.path.normpath(pattern)
             root_path, extension = os.path.splitext(pattern)
@@ -131,9 +133,7 @@ def is_patterns(path, patterns):
             #/path_pattern/*
             else:
                 re_pattern = re.compile(pattern)
-                logging.info("Is re_pattern path: %s %s" % (path, root_path))
                 if re_pattern.search(path):
-                    logging.info("Is pattern path add: %s %s" % (path, pattern))
                     return True
     elif not patterns:
         return True
