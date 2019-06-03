@@ -127,12 +127,10 @@ def is_patterns(path, patterns):
             elif root_path == '*' and extension:
                 #head, tail = os.path.split(root_path)
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))                
-                #re_pattern = re.compile(''.join(['/\s+\S+\w+', pattern, '$']))
             #/path_pattern/*
             else:
                 re_pattern = re.compile(root_path)
             if re_pattern.search(path):
-                logging.info("Is pattern path: %s %s" % (path, root_path))
                 return True
     elif not patterns:
         return True
