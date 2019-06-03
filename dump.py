@@ -118,19 +118,21 @@ def is_patterns(path, patterns):
             pattern = os.path.normpath(pattern)
             root_path, extension = os.path.splitext(pattern)
             root_path = os.path.normpath(root_path)
+            #/path_pattern/*.extension
             if root_path != '*' and root_path and extension:
                 root_pattern = re.compile(root_path)
                 extension_pattern = re.compile(''.join([extension, '$']))
                 if root_pattern.search(path) and extension_pattern.search(path):
                     return True
-            elif root_path:
-                tail = os.path.split(root_path)[1]
-                if tail == '*':
-                    re_pattern = re.compile(root_path)
-                else:
-                    re_pattern = re.compile(''.join([root_path, '$']))
-                if re_pattern.search(path):
-                    return True
+            #*.extension        
+            elif root_path == '*' and extension:
+                #head, tail = os.path.split(root_path)
+                re_pattern = re.compile(''.join(['/\w+', extension, '$']))                
+            #/path_pattern/*
+            else:
+                re_pattern = re.compile(root_path)
+            if re_pattern.search(path):
+                return True
     elif not patterns:
         return True
 
