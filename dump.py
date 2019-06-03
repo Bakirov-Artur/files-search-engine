@@ -114,11 +114,22 @@ def is_patterns(path, patterns):
     if patterns:
         # logging.debug("Is patterns path: %s" % (path))
         for pattern in patterns:
-            #os.path.splitext('*.ta')
             pattern = os.path.normpath(pattern)
-            re_pattern = re.compile(pattern)
-            if re_pattern.search(path):
-                return True
+            root_path, extension = os.path.splitext(pattern)
+            root_path = os.path.normpath(root_path)
+            if root_path and extension:
+                root_pattern = re.compile(root_path)
+                extension_pattern = re.compile(''.join([extension, '$']))
+                if root_pattern.search(path) and extension_pattern.search(path):
+                    return True
+            elif root_path:
+                tail = os.path.split(root_path)[1]
+                if tail == '*'
+                    re_pattern = re.compile(root_path)
+                else:
+                    re_pattern = re.compile(''.join([root_path, '$']))
+                if re_pattern.search(path):
+                    return True
     elif not patterns:
         return True
 
