@@ -110,14 +110,12 @@ def init_patterns(patterns_list, sep=':'):
 
 def is_patterns(path, patterns):
     #os.path.splitext('*.ta')
-    logging.debug("Is patterns path: %s" % (path))
     if patterns:
         logging.debug("Is patterns path: %s" % (path))
         for pattern in patterns:
             pattern = os.path.normpath(pattern)
             root_path, extension = os.path.splitext(pattern)
             root_path = os.path.normpath(root_path)
-            logging.debug("Is root_path: %s, extension: %s" % (root_path, extension))
             #/path_pattern/*.extension
             if root_path != '*' and root_path and extension:
                 root_pattern = re.compile(root_path)
@@ -130,10 +128,10 @@ def is_patterns(path, patterns):
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))                
             #/path_pattern/*
             else:
-                re_pattern = re.compile(root_path)
-                logging.debug("Is re_pattern path: %s %s" % (path, root_path))
+                re_pattern = re.compile(pattern)
+                logging.info("Is re_pattern path: %s %s" % (path, pattern))
             if re_pattern.search(path):
-                logging.debug("Is pattern path: %s %s" % (path, pattern))
+                logging.info("Is pattern path: %s %s" % (path, pattern))
                 return True
     elif not patterns:
         return True
@@ -161,6 +159,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
         db_files.append(files)
     elif files:
         for file in files:
+            logging.error("file: %s not found." % (path))
             path_file = None
             if os.path.isabs(file):
                 re_pattern = re.compile(path)
