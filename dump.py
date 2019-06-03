@@ -61,8 +61,8 @@ def main(data):
         if flist:
             files_list = files_list + flist
     #Архивирование данных
-    for f in files_list:
-        logging.info("FList path: %s" % (f))
+    # for f in files_list:
+    #     logging.info("FList path: %s" % (f))
     #create_archive(archive_file, files_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
@@ -122,6 +122,7 @@ def is_patterns(path, patterns):
                 root_pattern = re.compile(root_path)
                 extension_pattern = re.compile(''.join([extension, '$']))
                 if root_pattern.search(path) and extension_pattern.search(path):
+                    logging.info("extension_pattern path: %s" % (path))
                     return True
             #*.extension        
             elif root_path == '*' and extension:
