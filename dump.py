@@ -111,7 +111,7 @@ def init_patterns(patterns_list, sep=':'):
 def is_patterns(path, patterns):
     #os.path.splitext('*.ta')
     if patterns:
-        # logging.debug("Is patterns path: %s" % (path))
+        logging.debug("Is patterns path: %s" % (path))
         for pattern in patterns:
             pattern = os.path.normpath(pattern)
             root_path, extension = os.path.splitext(pattern)
@@ -181,7 +181,7 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 #     logging.info("file: %s" % (path_file))
                 if is_it_possible_add(path_file, patterns, files=db_files):
                     db_files.append(path_file)
-                    # logging.info("add file: %s" % (path_file))
+                    #logging.info("add file: %s" % (path_file))
     else:
         logging.error("file: %s not found." % (path))
 
