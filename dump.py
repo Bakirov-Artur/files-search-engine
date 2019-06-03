@@ -129,15 +129,15 @@ def is_patterns(path, patterns):
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))                
             #/path_pattern/*
             else:
-                logging.debug("Is re_pattern path: %s %s" % (path, pattern))
-                re_pattern = re.compile(pattern)
+                re_pattern = re.compile(root_path)
+                logging.debug("Is re_pattern path: %s %s" % (path, root_path))
             if re_pattern.search(path):
                 logging.debug("Is pattern path: %s %s" % (path, pattern))
                 return True
     elif not patterns:
         return True
-
-    return False
+    else:
+        return False
 
 def is_it_possible_add(path, patterns, files=[]):
     return is_patterns(path, patterns) and is_duplicate(path, files)
