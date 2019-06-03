@@ -159,7 +159,6 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
         db_files.append(files)
     elif files:
         for file in files:
-            logging.error("file: %s not found." % (path))
             path_file = None
             if os.path.isabs(file):
                 re_pattern = re.compile(path)
