@@ -61,8 +61,7 @@ def main(data):
         if flist:
             files_list = files_list + flist
     #Архивирование данных
-    print flist
-    for f in flist:
+    for f in files_list:
         logging.info("FList path: %s" % (flist))
     #create_archive(archive_file, files_list)
 
