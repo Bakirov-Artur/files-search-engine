@@ -61,7 +61,7 @@ def main(data):
         if flist:
             files_list = files_list + flist
     #Архивирование данных
-    #create_archive(archive_file, files_list)
+    create_archive(archive_file, files_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
