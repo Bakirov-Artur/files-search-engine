@@ -110,6 +110,7 @@ def init_patterns(patterns_list, sep=':'):
 
 def is_patterns(path, patterns):
     #os.path.splitext('*.ta')
+    logging.debug("Is patterns path: %s" % (path))
     if patterns:
         logging.debug("Is patterns path: %s" % (path))
         for pattern in patterns:
