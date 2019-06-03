@@ -124,7 +124,7 @@ def is_patterns(path, patterns):
                     return True
             elif root_path:
                 tail = os.path.split(root_path)[1]
-                if tail == '*'
+                if tail == '*':
                     re_pattern = re.compile(root_path)
                 else:
                     re_pattern = re.compile(''.join([root_path, '$']))
