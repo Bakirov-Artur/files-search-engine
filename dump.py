@@ -68,7 +68,7 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
     if files:
         for f in files:
-            archive.add(f, recursive=recursive)
+            #archive.add(f, recursive=recursive)
             logging.info("archive add file: %s" % (f))
     archive.close()
 
@@ -129,9 +129,10 @@ def is_patterns(path, patterns):
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))                
             #/path_pattern/*
             else:
+                logging.debug("Is re_pattern path: %s %s" % (path, pattern))
                 re_pattern = re.compile(pattern)
             if re_pattern.search(path):
-                logging.debug("Is patterns path: %s %s" % (path, pattern))
+                logging.debug("Is pattern path: %s %s" % (path, pattern))
                 return True
     elif not patterns:
         return True
