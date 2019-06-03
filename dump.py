@@ -129,8 +129,9 @@ def is_patterns(path, patterns):
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))                
             #/path_pattern/*
             else:
-                re_pattern = re.compile(''.join([root_path, '$']))
+                re_pattern = re.compile(pattern)
             if re_pattern.search(path):
+                logging.debug("Is patterns path: %s %s" % (path, pattern))
                 return True
     elif not patterns:
         return True
