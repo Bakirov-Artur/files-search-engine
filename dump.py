@@ -127,7 +127,7 @@ def is_patterns(path, patterns):
             #*.extension        
             elif root_path == '*' and extension:
                 #head, tail = os.path.split(root_path)
-                re_pattern = re.compile(''.join(['/\\s+\S+\w+\W*', extension, '$']))                
+                re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))                
                 #re_pattern = re.compile(''.join(['/\s+\S+\w+', pattern, '$']))
             #/path_pattern/*
             else:
