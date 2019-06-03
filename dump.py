@@ -49,7 +49,6 @@ def load_data(data):
 def main(data):
     logging.basicConfig(level=logging.INFO)
     dp = data.get("dump")
-    print dp
     archive_file = ''.join([dp.get('path'), dp.get('name'),'.', dp.get('type')])
     items = dp.get('items')
     files_list = []
@@ -117,6 +116,7 @@ def is_patterns(path, patterns):
             pattern = os.path.normpath(pattern)
             root_path, extension = os.path.splitext(pattern)
             root_path = os.path.normpath(root_path)
+            logging.debug("Is root_path: %s, extension: %s" % (root_path, extension))
             #/path_pattern/*.extension
             if root_path != '*' and root_path and extension:
                 root_pattern = re.compile(root_path)
