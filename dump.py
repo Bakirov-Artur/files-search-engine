@@ -61,8 +61,6 @@ def main(data):
         if flist:
             files_list = files_list + flist
     #Архивирование данных
-    # for f in files_list:
-    #     logging.info("FList path: %s" % (f))
     #create_archive(archive_file, files_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
@@ -157,7 +155,6 @@ def get_dir_files(path, files=None):
         fls = ls
     return fls
 
-
 def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patterns=None):
     files = get_dir_files(path, files=list_files);
     if isinstance(files, basestring) and is_it_possible_add(files, patterns, files=db_files):
@@ -170,7 +167,6 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                 if re_pattern.search(file):
                     path_file = file
                 else:
-                    #добавление в конец не правильный
                     path_file = get_path(path, file)
             else:
                 path_file = get_path(path, file)
@@ -202,6 +198,8 @@ def is_dir(path):
     return os.path.isdir(src_path)
 
 def get_path(path, file):
+    if file and file[0] == os.sep:
+        return os.path.join(path, file[1:])
     return os.path.join(path, file)
 
 def load_configs(path):
