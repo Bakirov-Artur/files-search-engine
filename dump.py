@@ -4,15 +4,10 @@
 import tarfile
 import os
 import sys
-import shutil
 import logging
-from datetime import datetime
 import re
 import json
 import argparse
-
-def get_jobs():
-    print 'jobs'
 
 def get_default_configs(path):
     return get_path(path, 'etc/files_dump.conf')
@@ -61,7 +56,7 @@ def main(data):
         if flist:
             files_list = files_list + flist
     #Архивирование данных
-    #create_archive(archive_file, files_list)
+    create_archive(archive_file, files_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
@@ -120,23 +115,22 @@ def is_patterns(path, patterns):
                 root_pattern = re.compile(root_path)
                 extension_pattern = re.compile(''.join([extension, '$']))
                 if root_pattern.search(path) and extension_pattern.search(path):
-                    logging.info("root_path extension  path: %s" % (path))
+                    logging.debug("root_path extension  path: %s" % (path))
                     return True
             #*.extension        
             elif root_path == '*' and extension:
                 #head, tail = os.path.split(root_path)
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))
                 if re_pattern.search(path):
-                    logging.info("extension path: %s" % (path))
+                    logging.debug("File extension by pattern: %s" % (path))
                     return True              
             #/path_pattern/*
             else:
                 re_pattern = re.compile(pattern)
                 if re_pattern.search(path):
-                    logging.info("Other path: %s" % (path))
+                    logging.debug("This is the right path pattern: %s, %s" % (pattern, path))
                     return True
     elif not patterns:
-        logging.info("patterns path: %s" % (path))
         return True
     else:
         return False
@@ -177,14 +171,14 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                     chld_files = ls_dir(path_file)
                     if chld_files:
                         get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth, patterns=patterns)
-                    # logging.info("dir: %s" % (path_file))
+                        logging.debug("This is directory: %s" % (path_file))
                 # else:
                 #     logging.info("file: %s" % (path_file))
                 if is_it_possible_add(path_file, patterns, files=db_files):
                     db_files.append(path_file)
-                    #logging.info("add file: %s" % (path_file))
+                    logging.debug("Add file to internal list: %s" % (path_file))
     else:
-        logging.error("file: %s not found." % (path))
+        logging.error("File: %s not found." % (path))
 
 def ls_dir(path):
     src_path = os.path.normpath(path)
@@ -207,7 +201,7 @@ def load_configs(path):
         fconfig = open(path, 'r')
         return json.load(fconfig)
     except IOError:
-        logging.error("file: %s not found." % (path))
+        logging.error("File: %s not found." % (path))
    
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
