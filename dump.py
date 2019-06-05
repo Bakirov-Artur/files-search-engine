@@ -63,7 +63,7 @@ def create_archive(name, files, recursive=False, archive_type="gz"):
     if files:
         for f in files:
             archive.add(f, recursive=recursive)
-            logging.info("archive add file: %s" % (f))
+            logging.info("archive %s add file: %s" % (name, f))
     archive.close()
 
 def is_duplicate(item, data_list):
