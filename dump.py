@@ -231,7 +231,7 @@ def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message
     logging.basicConfig(filename=file_name, level=log_level, format=format)
     if level > 6:
         logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
-    return logging.getLogger('tcpserver')
+    return logging.getLogger(name)
 if __name__ == "__main__":
     
     program_name = os.path.basename(__file__)
