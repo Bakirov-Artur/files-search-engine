@@ -9,8 +9,9 @@ import re
 import json
 import argparse
 
-def get_default_configs(path):
-    return get_path(path, 'etc/files_dump.conf')
+def get_config_files(path, patterns="*.conf"):
+    depth=1
+    return load(get_path(path, 'etc/'), patterns, depth=depth)
 
 def load(path, items, depth=0, recursive=False):
     flist = [] # Список всех файлов
@@ -206,10 +207,10 @@ def load_configs(path):
 if __name__ == "__main__":
     program_name = os.path.basename(__file__)
     app_path = os.path.dirname(os.path.abspath(__file__))
-    config_default = get_default_configs(app_path)
+    config_default = get_config_files(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
-    parser.add_argument('--config', help='/your/path/json/config/file', default=config_default)
+    parser.add_argument('--config', help='/your/path/json/config/file', default=config_default[:1])
     arguments = parser.parse_args(sys.argv[1:])
     configs = load_configs(arguments.config)
     if configs:
