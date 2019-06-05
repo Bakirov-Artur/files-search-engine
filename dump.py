@@ -210,7 +210,7 @@ if __name__ == "__main__":
     config_default = get_config_files(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
-    parser.add_argument('--config', help='/your/path/json/config/file', default=config_default[:1])
+    parser.add_argument('--config', help='/your/path/json/config/file', default=config_default[0])
     arguments = parser.parse_args(sys.argv[1:])
     configs = load_configs(arguments.config)
     if configs:
