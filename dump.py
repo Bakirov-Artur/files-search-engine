@@ -62,10 +62,11 @@ def main(data):
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
+    logger = logging.getLogger('archive')
     if files:
         for f in files:
             archive.add(f, recursive=recursive)
-            logging.info("archive %s add file: %s" % (name, f))
+            logger.info("archive %s add file: %s" % (name, f))
     archive.close()
 
 def is_duplicate(item, data_list):
