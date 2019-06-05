@@ -9,6 +9,8 @@ import re
 import json
 import argparse
 
+from datetime import datetime
+
 def get_config_files(path, patterns="*.conf"):
     depth=1
     return load(get_path(path, 'etc/'), patterns, depth=depth)
@@ -124,7 +126,7 @@ def is_patterns(path, patterns):
                 if re_pattern.search(path):
                     logging.debug("File extension by pattern: %s" % (path))
                     return True              
-            #/path_pattern/*
+            #/Other path templates/*
             else:
                 re_pattern = re.compile(pattern)
                 if re_pattern.search(path):
@@ -202,16 +204,50 @@ def load_configs(path):
         return json.load(fconfig)
     except IOError:
         logging.error("File: %s not found." % (path))
-   
+
+def get_log_file(path, file):
+    #Set file 
+    if os.path.isabs(file):
+        log_home, log_name= os.path.splitext(file)
+        if !is_dir(log_home):
+            os.makedirs(log_home)
+        return os.path.normpath(file)
+    else:
+        #Check log home
+        if !is_dir(path):
+            log_home = os.path.normpath(path)
+            os.makedirs(log_home)
+        return get_path(log_home, file)
+
+def get_log_level(level):
+    if level < 6:
+        lvl = level * 10
+    else:
+        lvl = 20
+    return lvl
+
+def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
+    file_name = get_log_file(path, file)
+    logging.basicConfig(filename=log_file, format=format)
+    log_level = get_log_level(level)
+    logging.setLevel(log_level)
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    
     program_name = os.path.basename(__file__)
     app_path = os.path.dirname(os.path.abspath(__file__))
+    logs_home = get_path(app_path, 'log')
+    log_file_name = '.'.join([datetime.now().strftime("%Y%m%d-%H%M%S"), "log"])
     config_default = get_config_files(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
     parser.add_argument('--config', help='/your/path/json/config/file', default=config_default[0])
+    parser.add_argument('--log_dir', help='/your/path/home/dir/log/', default=logs_home)
+    parser.add_argument('--log_file', help='/your/path/log/file', default=log_file_name)
+    parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=2)
+
     arguments = parser.parse_args(sys.argv[1:])
+    init_log(arguments.log_dir, arguments.log_file, arguments.log_level)
     configs = load_configs(arguments.config)
     if configs:
         main(configs)
