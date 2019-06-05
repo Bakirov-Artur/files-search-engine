@@ -62,11 +62,10 @@ def main(data):
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
-    logger = logging.getLogger('archive')
     if files:
         for f in files:
             archive.add(f, recursive=recursive)
-            logger.info("archive %s add file: %s" % (name, f))
+            logging.info("archive %s add file: %s" % (name, f))
     archive.close()
 
 def is_duplicate(item, data_list):
@@ -224,13 +223,13 @@ def get_log_level(level):
         return level * 10
     return logging.INFO
 
-def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
-    file_name = get_log_file(path, file)
-    log_level = get_log_level(level)
-    print file_name
-    logging.basicConfig(filename=file_name, level=log_level, format=format)
-    if level > 6:
-        logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
+# def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
+#     file_name = get_log_file(path, file)
+#     log_level = get_log_level(level)
+#     print file_name
+#     logging.basicConfig(filename=file_name, level=log_level, format=format)
+#     if level > 6:
+#         logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
 
 if __name__ == "__main__":
     
@@ -247,7 +246,14 @@ if __name__ == "__main__":
     parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=2)
 
     arguments = parser.parse_args(sys.argv[1:])
-    init_log(arguments.log_dir, arguments.log_file, arguments.log_level)
+    # init_log(arguments.log_dir, arguments.log_file, arguments.log_level)
+    log_path = get_log_file(arguments.log_dir, arguments.log_file)
+    log_level = get_log_level(arguments.log_level)
+    log_format=u'%(asctime)-4s %(levelname)-4s %(message)s'
+    logging.basicConfig(filename=log_path, level=log_level, format=log_format)
+    if arguments.log_level > 6:
+        logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (arguments.log_level))    
+
     configs = load_configs(arguments.config)
     if configs:
         main(configs)
