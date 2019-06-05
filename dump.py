@@ -215,8 +215,8 @@ def get_log_file(path, file):
     else:
         #Check log home
         if not is_dir(path):
-            log_home = os.path.normpath(path)
-            os.makedirs(log_home)
+            log_dir = os.path.normpath(path)
+            os.makedirs(log_dir)
         return get_path(log_home, file)
 
 def get_log_level(level):
