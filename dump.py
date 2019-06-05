@@ -209,12 +209,12 @@ def get_log_file(path, file):
     #Set file 
     if os.path.isabs(file):
         log_home, log_name= os.path.splitext(file)
-        if !is_dir(log_home):
+        if not is_dir(log_home):
             os.makedirs(log_home)
         return os.path.normpath(file)
     else:
         #Check log home
-        if !is_dir(path):
+        if not is_dir(path):
             log_home = os.path.normpath(path)
             os.makedirs(log_home)
         return get_path(log_home, file)
