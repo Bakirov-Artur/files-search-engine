@@ -227,10 +227,11 @@ def get_log_level(level):
 
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
     file_name = get_log_file(path, file)
-    logging.basicConfig(filename=file_name, format=format)
     log_level = get_log_level(level)
-    logging.setLevel(log_level)
-
+    logging.basicConfig(filename=file_name, level=log_level, format=format)
+    if level > 6:
+        logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
+        
 if __name__ == "__main__":
     
     program_name = os.path.basename(__file__)
