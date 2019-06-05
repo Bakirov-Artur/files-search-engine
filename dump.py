@@ -43,7 +43,6 @@ def load_data(data):
     pass
 
 def main(data):
-    logging.basicConfig(level=logging.INFO)
     dp = data.get("dump")
     archive_file = ''.join([dp.get('path'), dp.get('name'),'.', dp.get('type')])
     items = dp.get('items')
@@ -205,6 +204,7 @@ def load_configs(path):
         logging.error("File: %s not found." % (path))
    
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     program_name = os.path.basename(__file__)
     app_path = os.path.dirname(os.path.abspath(__file__))
     config_default = get_config_files(app_path)
