@@ -41,13 +41,7 @@ def check_depth(path, depth=0, sep=os.sep):
         return True
     return False
 
-def load_data(data):
-    pass
-
-def main(data):
-    dp = data.get("dump")
-    archive_file = ''.join([dp.get('path'), dp.get('name'),'.', dp.get('type')])
-    items = dp.get('items')
+def get_data(items):
     files_list = []
     for item in items:
         path = item.get('path')
@@ -57,8 +51,16 @@ def main(data):
         flist = load(path, patterns, depth=depth, recursive=recursive)
         if flist:
             files_list = files_list + flist
+    return files_list
+
+def main(data):
+    dp = data.get("dump")
+    archive_file = ''.join([dp.get('path'), dp.get('name'), '_', current_time, '.', dp.get('type')])
+    items = dp.get('items')
+    #Получение списка файлов
+    data_list = get_data(items)
     #Архивирование данных
-    create_archive(archive_file, files_list)
+    create_archive(archive_file, data_list)
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
@@ -224,6 +226,7 @@ def get_log_level(level):
     return logging.INFO
 
 logger = logging.getLogger(os.path.basename(__file__))
+current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
 
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
     file_name = get_log_file(path, file)
@@ -233,7 +236,7 @@ def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message
     f_handler.setLevel(log_level)
     f_format = logging.Formatter(format)
     f_handler.setFormatter(f_format)
-    
+
     logger.addHandler(f_handler)
     if level > 6:
         logger.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
@@ -243,7 +246,7 @@ if __name__ == "__main__":
     program_name = os.path.basename(__file__)
     app_path = os.path.dirname(os.path.abspath(__file__))
     logs_home = get_path(app_path, 'log')
-    log_file_name = '.'.join([datetime.now().strftime("%Y%m%d-%H%M%S"), "log"])
+    log_file_name = '.'.join([current_time, "log"])
     config_default = get_config_files(app_path)
     #parser arguments
     parser = argparse.ArgumentParser(description='Files dump')
