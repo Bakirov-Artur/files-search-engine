@@ -231,7 +231,7 @@ current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
     file_name = get_log_file(path, file)
     log_level = get_log_level(level)
-    logging.basicConfig(level=0)
+    logging.basicConfig(level=log_level)
     f_handler = logging.FileHandler(file_name)
     f_handler.setLevel(log_level)
     f_format = logging.Formatter(format)
