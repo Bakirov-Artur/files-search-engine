@@ -11,8 +11,6 @@ import argparse
 
 from datetime import datetime
 
-logger = logging.getLogger(os.path.basename(__file__));
-
 def get_config_files(path, patterns="*.conf"):
     depth=1
     return load(get_path(path, 'etc/'), patterns, depth=depth)
@@ -225,18 +223,16 @@ def get_log_level(level):
         return level * 10
     return logging.INFO
 
+logger = logging.getLogger(os.path.basename(__file__))
+
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
     file_name = get_log_file(path, file)
     log_level = get_log_level(level)
-    print("%s %s %s %s" %(file, path, level, format))
-    # logging.basicConfig(filename=file_name, level=log_level, format=format)
     f_handler = logging.FileHandler(file_name)
     f_handler.setLevel(log_level)
     f_format = logging.Formatter(format)
     f_handler.setFormatter(f_format)
     logger.addHandler(f_handler)
-    print("file_name: %s log_level: %s f_format: %s" %(file_name, log_level, f_format))
-    logger.error("file_name: %s log_level: %s f_format: %s" %(file_name, log_level, f_format))
     if level > 6:
         logger.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
 
@@ -252,7 +248,7 @@ if __name__ == "__main__":
     parser.add_argument('--config', help='/your/path/json/config/file', default=config_default[0])
     parser.add_argument('--log_dir', help='/your/path/home/dir/log/', default=logs_home)
     parser.add_argument('--log_file', help='/your/path/log/file', default=log_file_name)
-    parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=2)
+    parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=)
 
     arguments = parser.parse_args(sys.argv[1:])
     init_log(arguments.log_dir, arguments.log_file, arguments.log_level)
