@@ -228,7 +228,7 @@ def get_log_level(level):
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
     file_name = get_log_file(path, file)
     log_level = get_log_level(level)
-    print file path level format
+    print("%s %s %s %s" %(file, path, level, format))
     # logging.basicConfig(filename=file_name, level=log_level, format=format)
     f_handler = logging.FileHandler(file_name)
     f_handler.setLevel(log_level)
