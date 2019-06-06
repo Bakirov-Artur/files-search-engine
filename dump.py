@@ -222,6 +222,7 @@ def get_log_level(level):
     if level < 6:
         return level * 10
     return logging.INFO
+
 logger = logging.getLogger(os.path.basename(__file__))
 
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
@@ -232,7 +233,7 @@ def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message
     f_handler.setLevel(log_level)
     f_format = logging.Formatter(format)
     f_handler.setFormatter(f_format)
-
+    
     logger.addHandler(f_handler)
     if level > 6:
         logger.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
