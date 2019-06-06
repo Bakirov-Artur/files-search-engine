@@ -248,7 +248,7 @@ if __name__ == "__main__":
     parser.add_argument('--config', help='/your/path/json/config/file', default=config_default[0])
     parser.add_argument('--log_dir', help='/your/path/home/dir/log/', default=logs_home)
     parser.add_argument('--log_file', help='/your/path/log/file', default=log_file_name)
-    parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=3)
+    parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=1)
 
     arguments = parser.parse_args(sys.argv[1:])
     init_log(arguments.log_dir, arguments.log_file, arguments.log_level)
