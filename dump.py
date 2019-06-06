@@ -222,8 +222,6 @@ def get_log_level(level):
     if level < 6:
         return level * 10
     return logging.INFO
-
-logging.basicConfig()
 logger = logging.getLogger(os.path.basename(__file__))
 
 def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message)s'):
@@ -255,6 +253,7 @@ if __name__ == "__main__":
 
     arguments = parser.parse_args(sys.argv[1:])
     init_log(arguments.log_dir, arguments.log_file, arguments.log_level)
+    logging.basicConfig(level=get_log_level(arguments.log_level))
     configs = load_configs(arguments.config)
     if configs:
         logger.info("Program started")
