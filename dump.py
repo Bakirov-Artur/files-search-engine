@@ -223,7 +223,7 @@ def get_log_level(level):
         return level * 10
     return logging.INFO
 
-logger = logging.getLogger(os.path.basename(__file__))
+logger = logging.getLogger(__name__)
 
 def init_log(path, file, level, format=u'%(asctime)-4s %(name)s %(levelname)-4s %(message)s'):
     file_name = get_log_file(path, file)
