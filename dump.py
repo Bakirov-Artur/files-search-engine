@@ -227,12 +227,16 @@ def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message
     file_name = get_log_file(path, file)
     log_level = get_log_level(level)
     print file_name
-    logging.basicConfig(filename=file_name, level=log_level, format=format)
+    # logging.basicConfig(filename=file_name, level=log_level, format=format)
+    f_handler = logging.FileHandler(file_name)
+    f_handler.setLevel(log_level)
+    f_format = logging.Formatter(format)
+    f_handler.setFormatter(f_format)
+    logger.addHandler(f_handler)
     if level > 6:
-        logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
-    return logging.getLogger(name)
+        logger.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
 
-logger = None;
+logger = logging.getLogger(os.path.basename(__file__));
 
 if __name__ == "__main__":
     
@@ -249,7 +253,7 @@ if __name__ == "__main__":
     parser.add_argument('--log_level', help='set the level of debug msgs (1-5)', default=2)
 
     arguments = parser.parse_args(sys.argv[1:])
-    logger = init_log(arguments.log_dir, arguments.log_file, arguments.log_level, name=program_name)
+    init_log(arguments.log_dir, arguments.log_file, arguments.log_level, name=program_name)
     configs = load_configs(arguments.config)
     if configs:
         logger.info("Program started")
