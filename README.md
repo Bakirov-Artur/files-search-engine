@@ -2,7 +2,7 @@
 Backup and archive files
 
 ## Install & Using
-1. Cloned: http://gitlab.moex.com/spectra-devops/jenkins_backup.git
+1. Cloned: https://github.com/Bakirov-Artur/files-search-engine
 2. cd jenkins_backup
 3. Create dir: mkdir etc
 4. Create file: echo > etc/jenkins_backup.conf
