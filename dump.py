@@ -62,7 +62,6 @@ def main(data):
 
 def create_archive(name, files, recursive=False, archive_type="gz"):
     archive = tarfile.open(name, ":".join(["w", archive_type]))
-    logger = logging.getLogger('archive')
     if files:
         for f in files:
             archive.add(f, recursive=recursive)
@@ -118,20 +117,20 @@ def is_patterns(path, patterns):
                 root_pattern = re.compile(root_path)
                 extension_pattern = re.compile(''.join([extension, '$']))
                 if root_pattern.search(path) and extension_pattern.search(path):
-                    logging.debug("root_path extension  path: %s" % (path))
+                    logger.debug("root_path extension  path: %s" % (path))
                     return True
             #*.extension        
             elif root_path == '*' and extension:
                 #head, tail = os.path.split(root_path)
                 re_pattern = re.compile(''.join(['/.*\w+', extension, '$']))
                 if re_pattern.search(path):
-                    logging.debug("File extension by pattern: %s" % (path))
+                    logger.debug("File extension by pattern: %s" % (path))
                     return True              
             #/Other path templates/*
             else:
                 re_pattern = re.compile(pattern)
                 if re_pattern.search(path):
-                    logging.debug("This is the right path pattern: %s, %s" % (pattern, path))
+                    logger.debug("This is the right path pattern: %s, %s" % (pattern, path))
                     return True
     elif not patterns:
         return True
@@ -174,19 +173,19 @@ def get_files(path, list_files=None, db_files=[], recursive=False, depth=0, patt
                     chld_files = ls_dir(path_file)
                     if chld_files:
                         get_files(path_file, list_files=chld_files, db_files=db_files, recursive=True, depth=depth, patterns=patterns)
-                        logging.debug("This is directory: %s" % (path_file))
+                        logger.debug("This is directory: %s" % (path_file))
                 # else:
-                #     logging.info("file: %s" % (path_file))
+                #     logger.info("file: %s" % (path_file))
                 if is_it_possible_add(path_file, patterns, files=db_files):
                     db_files.append(path_file)
-                    logging.debug("Add file to internal list: %s" % (path_file))
+                    logger.debug("Add file to internal list: %s" % (path_file))
     else:
-        logging.error("File: %s not found." % (path))
+        logger.error("File: %s not found." % (path))
 
 def ls_dir(path):
     src_path = os.path.normpath(path)
     if not is_dir(src_path):
-        logging.error("%s" % (e))
+        logger.error("%s" % (e))
         return []
     return os.listdir(src_path)
 
@@ -204,7 +203,7 @@ def load_configs(path):
         fconfig = open(path, 'r')
         return json.load(fconfig)
     except IOError:
-        logging.error("File: %s not found." % (path))
+        logger.error("File: %s not found." % (path))
 
 def get_log_file(path, file):
     #Set file 
@@ -232,6 +231,9 @@ def init_log(path, file, level, format=u'%(asctime)-4s %(levelname)-4s %(message
     if level > 6:
         logging.error("Current the level of debug msgs: 1. Set the level of debug msgs (1-5): %s" % (level))
     return logging.getLogger(name)
+
+logger = None;
+
 if __name__ == "__main__":
     
     program_name = os.path.basename(__file__)
@@ -248,6 +250,8 @@ if __name__ == "__main__":
 
     arguments = parser.parse_args(sys.argv[1:])
     logger = init_log(arguments.log_dir, arguments.log_file, arguments.log_level, name=program_name)
+    lo
     configs = load_configs(arguments.config)
     if configs:
+        logger.info("Program started")
         main(configs)
