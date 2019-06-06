@@ -250,7 +250,6 @@ if __name__ == "__main__":
 
     arguments = parser.parse_args(sys.argv[1:])
     logger = init_log(arguments.log_dir, arguments.log_file, arguments.log_level, name=program_name)
-    lo
     configs = load_configs(arguments.config)
     if configs:
         logger.info("Program started")
